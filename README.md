@@ -4,39 +4,125 @@
 Docker images for Perforce source control.
 
 ## helix-p4d
-This image contains a [Helix Core Server](https://www.perforce.com/products/helix-core]).
+This image contains a [Helix Core Server](https://www.perforce.com/products/helix-core).
 
 ### Quickstart
 ```bash
-docker run -v /srv/helix-p4d/data:/data -p 1666:1666 -e P4CASE=1 hawkmothstudio/helix-p4d
+docker run -v /srv/helix-p4d/data:/data -p 1666:1666 -e P4CASE=1 --name=helix-p4d hawkmothstudio/helix-p4d
 ```
 
-### Container Environment Variables
+### Volumes
+| Volume Name | Description           |
+| ----------- | --------------------- |
+| /data       | Server data directory |
+
+### Container environment variables
 | Variable Name | Default value         | Description                                               |
 | ------------- | --------------------- | --------------------------------------------------------- |
-| P4NAME        | master                | Service name. Do not change.                              |
-| P4ROOT        | /data/master          | p4d data directory. Do not change.                        |
+| P4NAME        | master                | Service name, leave default value (recommended).          |
+| P4ROOT        | /data/master          | p4d data directory, leave default value (recommended).    |
 | P4SSLDIR      | /data/master/root/ssl | Directory with ssl certificate and private key.           |
 | P4PORT        | ssl:1666              | Server port. By default, connection is secured by TLS.    |
 | P4USER        | super                 | Login of the first user to be created.                    |
 | P4PASSWD      | P@ssw0rd              | Password of the first user to be created.                 |
-| P4CASE        | 0                     | Set to 1 to use case-insensitive mode.                    |
+| P4CASE        | 0                     | Set to `1` to use case-insensitive mode.                  |
 
-### docker-compose
-Example `docker-compose.yml` when running under Linux:
+### Initial configuration
+When started for the first time, a new p4d server is initialized with superuser identified by `$P4USER` and `$P4PASSWD`.
+Changing these variables after the server has been initialized does not change server's superuser.
+
+### TLS support
+If `$P4PORT` value starts with `ssl:`, p4d is configured with TLS support.
+By default, when initialized, new key and certificate are generated and placed into `$P4SSLDIR` as `privatekey.txt` and `certificate.txt`.
+
+It is recommended to provide proper custom key and certificate.
+
+Attention: when server detects that key and/or certificate has changed, a new server fingerprint is generated.
+All the clients must be updated to trust this new fingerprint.
+
+### Unicode support
+Containers created from this image always initialize server with Unicode support enabled.
+
+
+## helix-swarm
+This image contains a [Helix Swarm](https://www.perforce.com/products/helix-swarm) core review tool along with a Redis cache server.
+Currently using external Redis server is not supported.
+
+### Quickstart
+```bash
+docker run -it --rm -e P4PORT=ssl:p4d:1666 -p 80:80 --name helix-swarm hawkmothstudio/helix-swarm
+```
+
+### Volumes
+| Volume Name              | Description           |
+| ------------------------ | --------------------- |
+| /opr/perforce/swarm/data | Server data directory |
+
+### Container environment variables
+| Variable Name                      | Default value                          | Description                                                     |
+| ---------------------------------- | -------------------------------------- | --------------------------------------------------------------- |
+| P4PORT                             | ssl:p4d:1666                           | p4d server connection string.                                   |
+| P4USER                             | super                                  | User to be used when running p4 commands from console.          |
+| P4PASSWD                           | P@ssw0rd                               | `$P4USER`'s password.                                           |
+| SWARM\_USER                        | super                                  | User to be used by Swarm to connect to p4d.                     |
+| SWARM\_PASSWD                      | P@ssw0rd                               | `$SWARM_USER`'s password.                                       |
+| SWARM\_USER\_CREATE                | false                                  | Set to `true` to create `$SWARM_USER` on the p4d server.        |
+| SWARM\_GROUP\_CREATE               | false                                  | Set to `true` to create long-lived ticket group for swarm user. |
+| SWARM\_HOST                        | localhost                              | Swarm machine hostname.                                         |
+| SWARM\_PORT                        | 80                                     | Port Swarm is running on (HTTP).                                |
+| SWARM\_SSL\_ENABLE                 | false                                  | Set to `true` to enable TLS support.                            |
+| SWARM\_SSL\_CERTIFICATE\_FILE      | /etc/ssl/certs/ssl-cert-snakeoil.pem   | Path to full-chain certificate file.                            |
+| SWARM\_SSL\_CERTIFICATE\_KEY\_FILE | /etc/ssl/private/ssl-cert-snakeoil.key | Path to certificate key file.                                   |
+
+### Initial configuration
+When started, container checks if `/opt/perforce/swarm/data/config.php` is present.
+If not, Swarm is initialized using provided environment variables.
+
+After the container has been initialized, all modifications to the Swarm configuration should be done by editing the `config.php` (see [official documentation](https://www.perforce.com/manuals/swarm/Content/Swarm/admin.configuration.html)).
+
+### TLS support
+Set `SWARM_SSL_ENABLE` to `true` and provide correct certificate and key files to enable TLS support.
+TLS support can be enabled/disabled/updated through the environment variables at any time (container restart is required).
+
+
+## docker-compose
+The following example `docker-compose.yml` starts both p4d and swarm:
 ```yaml
 version: '2.1'
 services:
-  server:
+  p4d:
     image: hawkmothstudio/helix-p4d
     ports:
-    - "1666:1666"
+      - '1666:1666'
     environment:
-      P4USER: mysuperuser
-      P4PASSWD: MySup3rPwd
+      P4USER: 'mysuperuser'
+      P4PASSWD: 'MySup3rPwd'
       P4CASE: '1'
     volumes:
-    - /etc/localtime:/etc/localtime:ro
-    - /etc/timezone:/etc/timezone:ro
-    - /srv/helix-p4d:/data
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /srv/helix/p4d/data:/data
+  swarm:
+    image: hawkmothstudio/helix-swarm
+    ports:
+      - '80:80'
+      - '443:443'
+    environment:
+      P4PORT: 'ssl:p4d:1666'
+      P4USER: 'mysuperuser'
+      P4PASSWD: 'MySup3rPwd'
+      SWARM_USER: swarm
+      SWARM_USER_CREATE: 'true'
+      SWARM_GROUP_CREATE: 'true'
+      SWARM_SSL_ENABLE: 'true'
+      SWARM_SSL_CERTIFICATE_FILE: '/etc/letsencrypt/live/example.com/fullchain.pem'
+      SWARM_SSL_CERTIFICATE_KEY_FILE: '/etc/letsencrypt/live/example.com/privkey.pem'
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/letsencrypt:/etc/letsecnrypt:ro
+      - /srv/helix/swarm/data:/opt/perforce/swarm/data
+    depends_on:
+      - p4d
 ```
+

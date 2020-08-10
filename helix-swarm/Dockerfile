@@ -15,15 +15,16 @@ RUN curl -s -L https://package.perforce.com/perforce.pubkey | apt-key add - \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive \
     apt-get -y install \
-        helix-p4d \
-        helix-swarm-triggers \
+        helix-swarm \
+        redis-server \
+        supervisor \
  && rm -rf /var/lib/apt/lists/*
 
 
+COPY etc /etc
 COPY docker-entrypoint.sh /
-COPY p4d-run.sh /
 
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["/p4d-run.sh"]
+CMD ["/usr/bin/supervisord", "--configuration", "/etc/supervisor/supervisord.conf"]
 
