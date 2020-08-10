@@ -18,7 +18,7 @@ docker run -v /srv/helix-p4d/data:/data -p 1666:1666 -e P4CASE=1 hawkmothstudio/
 | P4ROOT        | /data/master          | p4d data directory. Do not change.                        |
 | P4SSLDIR      | /data/master/root/ssl | Directory with ssl certificate and private key.           |
 | P4PORT        | ssl:1666              | Server port. By default, connection is secured by TLS.    |
-| P4USER        | p4admin               | Login of the first user to be created.                    |
+| P4USER        | super                 | Login of the first user to be created.                    |
 | P4PASSWD      | P@ssw0rd              | Password of the first user to be created.                 |
 | P4CASE        | 0                     | Set to 1 to use case-insensitive mode.                    |
 

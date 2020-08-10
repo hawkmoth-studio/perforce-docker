@@ -3,6 +3,15 @@
 set -e
 
 
+export P4NAME="${P4NAME:-master}"
+export P4ROOT="${P4ROOT:-/data/${P4NAME}}"
+export P4SSLDIR="${P4SSLDIR:-${P4ROOT}/root/ssl}"
+export P4PORT="${P4PORT:-ssl:1666}"
+export P4USER="${P4USER:-super}"
+export P4PASSWD="${P4PASSWD:-P@ssw0rd}"
+export P4CASE="${P4CASE:-0}"
+
+
 # copy default perforce configuration to docker volume
 P4_CONF_DIR="/data/config"
 if [[ ! -d "${P4_CONF_DIR}" ]]; then
