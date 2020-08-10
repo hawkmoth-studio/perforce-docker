@@ -35,6 +35,9 @@ if [[ ! -f "/opt/perforce/swarm/data/config.php" ]]; then
 fi
 
 
+# enable mod_rewrite
+a2enmod rewrite 1>/dev/null
+
 if [[ "${SWARM_SSL_ENABLE}" == "true" ]]; then
     if [[ -z "${SWARM_SSL_CERTIFICATE_FILE}" ]]; then
         SWARM_SSL_CERTIFICATE_FILE="/etc/ssl/certs/ssl-cert-snakeoil.pem"
@@ -44,8 +47,6 @@ if [[ "${SWARM_SSL_ENABLE}" == "true" ]]; then
         SWARM_SSL_CERTIFICATE_KEY_FILE="/etc/ssl/private/ssl-cert-snakeoil.key"
         echo "WARNING! Using default certificate key file: ${SWARM_SSL_CERTIFICATE_KEY_FILE}"
     fi
-    # enable mod_rewrite
-    a2enmod rewrite 1>/dev/null
     # enable mod_ssl
     a2enmod ssl 1>/dev/null
     # write configuration file
@@ -53,7 +54,6 @@ if [[ "${SWARM_SSL_ENABLE}" == "true" ]]; then
         SWARM_SSL_REDIRECT_URL="https://%{HTTP_HOST}%{REQUEST_URI}"
     fi
     cat <<EOF >/etc/apache2/sites-available/perforce-swarm-site.conf
-
 # non-ssl virtual host
 <VirtualHost *:${SWARM_PORT}>
     ServerName  ${SWARM_HOST}
@@ -97,9 +97,6 @@ else # SSL disabled
     a2dismod ssl 1>/dev/null
     # write apache virtual host configuration file
     cat <<EOF >/etc/apache2/sites-available/perforce-swarm-site.conf
-# define global server name to prevent apache2 warnings
-ServerName  ${SWARM_HOST}
-
 # non-ssl virtual host
 <VirtualHost *:${SWARM_PORT}>
     ServerName  ${SWARM_HOST}
