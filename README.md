@@ -84,7 +84,8 @@ Set `SWARM_SSL_ENABLE` to `true` and provide correct certificate and key files t
 TLS support can be enabled/disabled/updated through the environment variables at any time (container restart is required).
 
 
-## docker-compose
+## Examples
+### Running with docker-compose
 The following example `docker-compose.yml` starts both p4d and swarm:
 ```yaml
 version: '2.1'
@@ -126,5 +127,48 @@ services:
       - /srv/helix/swarm/data:/opt/perforce/swarm/data
     depends_on:
       - p4d
+```
+
+### Loading typemap into p4d
+In this example we will load a [UE4 Perforce Typemap](https://docs.unrealengine.com/en-US/Engine/Basics/SourceControl/Perforce/index.html).
+
+There is a [known issue](https://github.com/docker/compose/issues/3352) with `docker-compose` and piping, so we need to use the `docker` command:
+```bash
+ docker exec -i helix_p4d_1 p4 typemap -i <<EOF
+# Perforce File Type Mapping Specifications.
+#
+#  TypeMap:             a list of filetype mappings; one per line.
+#                       Each line has two elements:
+#
+#                       Filetype: The filetype to use on 'p4 add'.
+#
+#                       Path:     File pattern which will use this filetype.
+#
+# See 'p4 help typemap' for more information.
+
+TypeMap:
+                binary+w //depot/....exe
+                binary+w //depot/....dll
+                binary+w //depot/....lib
+                binary+w //depot/....app
+                binary+w //depot/....dylib
+                binary+w //depot/....stub
+                binary+w //depot/....ipa
+                binary //depot/....bmp
+                text //depot/....ini
+                text //depot/....config
+                text //depot/....cpp
+                text //depot/....h
+                text //depot/....c
+                text //depot/....cs
+                text //depot/....m
+                text //depot/....mm
+                text //depot/....py
+                binary+l //depot/....uasset
+                binary+l //depot/....umap
+                binary+l //depot/....upk
+                binary+l //depot/....udk
+                binary+l //depot/....ubulk
+EOF
 ```
 
