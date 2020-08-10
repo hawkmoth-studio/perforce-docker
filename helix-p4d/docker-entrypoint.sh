@@ -3,23 +3,14 @@
 set -e
 
 
-export P4NAME="${P4NAME:-master}"
-export P4ROOT="${P4ROOT:-/data/${P4NAME}}"
-export P4SSLDIR="${P4SSLDIR:-${P4ROOT}/root/ssl}"
-export P4PORT="${P4PORT:-ssl:1666}"
-export P4USER="${P4USER:-super}"
-export P4PASSWD="${P4PASSWD:-P@ssw0rd}"
-export P4CASE="${P4CASE:-0}"
-
-
-# copy default perforce configuration to docker volume
+# link p4dctl service configuration file into /etc/perforce/
 P4_CONF_DIR="/data/config"
 if [[ ! -d "${P4_CONF_DIR}" ]]; then
     mkdir -pv "${P4_CONF_DIR}"
     cp -rvf "/etc/perforce"/* "${P4_CONF_DIR}/"
 fi
 # link docker volume directory to default perforce config location
-mv /etc/perforce{,.backup}
+mv /etc/perforce{,.orig}
 ln -sv "${P4_CONF_DIR}" "/etc/perforce"
 
 
@@ -30,22 +21,41 @@ for d in "${P4ROOT}" "${P4SSLDIR}"; do
 done
 
 
+# install TLS certificate files
+chmod 0700 "${P4SSLDIR}"
+if [[ -n "${P4D_SSL_CERTIFICATE_FILE}" ]]; then
+    cp -Lvf "${P4D_SSL_CERTIFICATE_FILE}" "${P4SSLDIR}/certificate.txt"
+    chmod 0600 "${P4SSLDIR}/certificate.txt"
+fi
+if [[ -n "${P4D_SSL_CERTIFICATE_KEY_FILE}" ]]; then
+    cp -Lvf "${P4D_SSL_CERTIFICATE_KEY_FILE}" "${P4SSLDIR}/privatekey.txt"
+    chmod 0600 "${P4SSLDIR}/privatekey.txt"
+fi
+
+
 # check if p4d service is configured
 if ! gosu perforce p4dctl list 2>/dev/null | grep -q "${P4NAME}"; then
-    /opt/perforce/sbin/configure-helix-p4d.sh \
-        "${P4NAME}" \
-        -n \
-        -p "${P4PORT}" \
-        -r "${P4ROOT}" \
-        -u "${P4USER}" \
-        -P "${P4PASSWD}" \
-        --unicode \
-        --case "${P4CASE}"
+    CONFIGURE_P4D_CMD=("/opt/perforce/sbin/configure-helix-p4d.sh")
+    CONFIGURE_P4D_CMD+=("${P4NAME}")
+    CONFIGURE_P4D_CMD+=("-n")
+    CONFIGURE_P4D_CMD+=("-p" "${P4PORT}")
+    CONFIGURE_P4D_CMD+=("-r" "${P4ROOT}")
+    CONFIGURE_P4D_CMD+=("-u" "${P4USER}")
+    CONFIGURE_P4D_CMD+=("-P" "${P4PASSWD}")
+    if [[ "${P4D_CASE_SENSITIVE}" == "true" ]]; then
+        CONFIGURE_P4D_CMD+=("--case" "0")
+    else
+        CONFIGURE_P4D_CMD+=("--case" "1")
+    fi
+    if [[ "${P4D_USE_UNICODE}" == "true" ]]; then
+        CONFIGURE_P4D_CMD+=("--unicode")
+    fi
+    # run configure script
+    "${CONFIGURE_P4D_CMD[@]}"
     # configure-helix-p4d.sh starts p4d in background by default
     gosu perforce p4dctl stop "${P4NAME}"
 fi
 
-
 # exec docker command
-gosu perforce bash -c "$@"
+exec "$@"
 

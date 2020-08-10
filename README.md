@@ -8,7 +8,7 @@ This image contains a [Helix Core Server](https://www.perforce.com/products/heli
 
 ### Quickstart
 ```bash
-docker run -v /srv/helix-p4d/data:/data -p 1666:1666 -e P4CASE=1 --name=helix-p4d hawkmothstudio/helix-p4d
+docker run -v /srv/helix-p4d/data:/data -p 1666:1666 --name=helix-p4d hawkmothstudio/helix-p4d
 ```
 
 ### Volumes
@@ -17,15 +17,18 @@ docker run -v /srv/helix-p4d/data:/data -p 1666:1666 -e P4CASE=1 --name=helix-p4
 | /data       | Server data directory |
 
 ### Container environment variables
-| Variable Name | Default value         | Description                                               |
-| ------------- | --------------------- | --------------------------------------------------------- |
-| P4NAME        | master                | Service name, leave default value (recommended).          |
-| P4ROOT        | /data/master          | p4d data directory, leave default value (recommended).    |
-| P4SSLDIR      | /data/master/root/ssl | Directory with ssl certificate and private key.           |
-| P4PORT        | ssl:1666              | Server port. By default, connection is secured by TLS.    |
-| P4USER        | super                 | Login of the first user to be created.                    |
-| P4PASSWD      | P@ssw0rd              | Password of the first user to be created.                 |
-| P4CASE        | 0                     | Set to `1` to use case-insensitive mode.                  |
+| Variable Name                      | Default value                          | Description                                                     |
+| ---------------------------------- | -------------------------------------- | --------------------------------------------------------------- |
+| P4NAME                             | master                                 | Service name, leave default value (recommended).                |
+| P4ROOT                             | /data/master                           | p4d data directory, leave default value (recommended).          |
+| P4SSLDIR                           | /data/master/root/ssl                  | Directory with ssl certificate and private key.                 |
+| P4PORT                             | ssl:1666                               | Server port. By default, connection is secured by TLS.          |
+| P4USER                             | super                                  | Login of the first user to be created.                          |
+| P4PASSWD                           | P@ssw0rd                               | Password of the first user to be created.                       |
+| P4D\_CASE\_SENSITIVE               | false                                  | Set to `true` to enable case-sensitive mode.                    |
+| P4D\_USE\_UNICODE                  | true                                   | Set to `false` to disable unicode mode.                         |
+| P4D\_SSL\_CERTIFICATE\_FILE        |                                        | If set, file is copied and used as a TLS certificate.           |
+| P4D\_SSL\_CERTIFICATE\_KEY\_FILE   |                                        | If set, file is copied and used as a TLS private key.           |
 
 ### Initial configuration
 When started for the first time, a new p4d server is initialized with superuser identified by `$P4USER` and `$P4PASSWD`.
@@ -33,15 +36,11 @@ Changing these variables after the server has been initialized does not change s
 
 ### TLS support
 If `$P4PORT` value starts with `ssl:`, p4d is configured with TLS support.
-By default, when initialized, new key and certificate are generated and placed into `$P4SSLDIR` as `privatekey.txt` and `certificate.txt`.
-
-It is recommended to provide proper custom key and certificate.
+It is strongly recommended to provide proper custom key and certificate using `P4D_SSL_CERTIFICATE_FILE` and `P4D_SSL_CERTIFICATE_KEY_FILE` environment variables are set - these file are copied into `$P4SSLDIR` as `certificate.txt` and `privatekey.txt`.
+Otherwise, new key and certificate are automatically generated (only during initialization).
 
 Attention: when server detects that key and/or certificate has changed, a new server fingerprint is generated.
-All the clients must be updated to trust this new fingerprint.
-
-### Unicode support
-Containers created from this image always initialize server with Unicode support enabled.
+All the clients (including local container client) must be updated to trust this new fingerprint.
 
 
 ## helix-swarm
@@ -71,8 +70,8 @@ docker run -it --rm -e P4PORT=ssl:p4d:1666 -p 80:80 --name helix-swarm hawkmoths
 | SWARM\_HOST                        | localhost                              | Swarm machine hostname.                                         |
 | SWARM\_PORT                        | 80                                     | Port Swarm is running on (HTTP).                                |
 | SWARM\_SSL\_ENABLE                 | false                                  | Set to `true` to enable TLS support.                            |
-| SWARM\_SSL\_CERTIFICATE\_FILE      | /etc/ssl/certs/ssl-cert-snakeoil.pem   | Path to full-chain certificate file.                            |
-| SWARM\_SSL\_CERTIFICATE\_KEY\_FILE | /etc/ssl/private/ssl-cert-snakeoil.key | Path to certificate key file.                                   |
+| SWARM\_SSL\_CERTIFICATE\_FILE      | /etc/ssl/certs/ssl-cert-snakeoil.pem   | Path to certificate file.                                       |
+| SWARM\_SSL\_CERTIFICATE\_KEY\_FILE | /etc/ssl/private/ssl-cert-snakeoil.key | Path to private key file.                                       |
 
 ### Initial configuration
 When started, container checks if `/opt/perforce/swarm/data/config.php` is present.
@@ -97,10 +96,12 @@ services:
     environment:
       P4USER: 'mysuperuser'
       P4PASSWD: 'MySup3rPwd'
-      P4CASE: '1'
+      P4D_SSL_CERTIFICATE_FILE: '/etc/letsencrypt/live/example.com/fullchain.pem'
+      P4D_SSL_CERTIFICATE_KEY_FILE: '/etc/letsencrypt/live/example.com/privkey.pem'
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
+      - /etc/letsencrypt:/etc/letsecnrypt:ro
       - /srv/helix/p4d/data:/data
   swarm:
     image: hawkmothstudio/helix-swarm
@@ -111,7 +112,8 @@ services:
       P4PORT: 'ssl:p4d:1666'
       P4USER: 'mysuperuser'
       P4PASSWD: 'MySup3rPwd'
-      SWARM_USER: swarm
+      SWARM_USER: 'swarm'
+      SWARM_PASSWD: 'MySwa3mPwd'
       SWARM_USER_CREATE: 'true'
       SWARM_GROUP_CREATE: 'true'
       SWARM_SSL_ENABLE: 'true'

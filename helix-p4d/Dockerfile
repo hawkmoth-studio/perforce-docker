@@ -20,10 +20,20 @@ RUN curl -s -L https://package.perforce.com/perforce.pubkey | apt-key add - \
  && rm -rf /var/lib/apt/lists/*
 
 
+ENV P4PORT              ssl:1666
+ENV P4SER               super
+ENV P4PASSWD            P@ssw0rd
+
+ENV P4NAME              master
+ENV P4ROOT              /data/${P4NAME}
+ENV P4SSLDIR            ${P4ROOT}/root/ssl
+ENV P4D_CASE_SENSITIVE  0
+ENV P4D_USE_UNICODE     0
+
+
 COPY docker-entrypoint.sh /
-COPY p4d-run.sh /
 
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["/p4d-run.sh"]
+CMD ["gosu", "perforce", "p4d"]
 
