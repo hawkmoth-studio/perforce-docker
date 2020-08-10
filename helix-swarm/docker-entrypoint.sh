@@ -3,21 +3,6 @@
 set -e
 
 
-# export only p4 variables as these can be used when issuing p4 commands from shell
-export P4PORT="${P4PORT:-ssl:p4d:1666}"
-export P4USER="${P4USER:-super}"
-export P4PASSWD="${P4PASSWD:-P@ssw0rd}"
-
-
-SWARM_USER="${SWARM_USER:-swarm}"
-SWARM_PASSWD="${SWARM_PASSWD:-P@ssw0rd}"
-
-SWARM_HOST="${SWARM_HOST:-localhost}"
-SWARM_PORT="${SWARM_PORT:-80}"
-
-EMAIL_HOST="${SWARM_EMAIL_HOST:-localhost}"
-
-
 # define global server name to prevent apache2 warnings
 cat <<EOF >/etc/apache2/sites-available/000-default.conf
 ServerName  ${SWARM_HOST}

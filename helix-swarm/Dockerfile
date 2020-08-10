@@ -21,9 +21,23 @@ RUN curl -s -L https://package.perforce.com/perforce.pubkey | apt-key add - \
  && rm -rf /var/lib/apt/lists/*
 
 
-ENV P4PORT      ssl:p4d:1666
-ENV P4SER       super
-ENV P4PASSWD    P@ssw0rd
+ENV P4PORT              ssl:p4d:1666
+ENV P4SER               super
+ENV P4PASSWD            P@ssw0rd
+
+ENV SWARM_USER          ${P4USER}
+ENV SWARM_PASSWD        ${P4PASSWD}
+ENV SWARM_USER_CREATE   false
+ENV SWARM_GROUP_CREATE  false
+
+ENV SWARM_HOST          localhost
+ENV SWARM_PORT          80
+
+ENV SWARM_SSL_ENABLE    false
+ENV SWARM_SSL_CERTIFICATE_FILE=
+ENV SWARM_SSL_CERTIFICATE_KEY_FILE=
+
+ENV EMAIL_HOST          localhost
 
 
 COPY etc /etc
