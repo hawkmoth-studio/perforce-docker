@@ -14,6 +14,10 @@ mv /etc/perforce{,.orig}
 ln -sv "${P4_CONF_DIR}" "/etc/perforce"
 
 
+# setup p4 root and ssl directory paths
+export P4ROOT="/data/${P4NAME}/root"
+export P4SSLDIR="${P4ROOT}/ssl"
+
 # create directories, set correct ownership
 for d in "${P4ROOT}" "${P4SSLDIR}"; do
     mkdir -pv "${d}"
@@ -39,7 +43,7 @@ if ! gosu perforce p4dctl list 2>/dev/null | grep -q "${P4NAME}"; then
     CONFIGURE_P4D_CMD+=("${P4NAME}")
     CONFIGURE_P4D_CMD+=("-n")
     CONFIGURE_P4D_CMD+=("-p" "${P4PORT}")
-    CONFIGURE_P4D_CMD+=("-r" "${P4ROOT}")
+    CONFIGURE_P4D_CMD+=("-r" "/data/${P4NAME}")
     CONFIGURE_P4D_CMD+=("-u" "${P4USER}")
     CONFIGURE_P4D_CMD+=("-P" "${P4PASSWD}")
     if [[ "${P4D_CASE_SENSITIVE}" == "true" ]]; then
