@@ -87,6 +87,7 @@ docker run -it --rm -e P4PORT=ssl:p4d:1666 -p 80:80 --name helix-swarm hawkmoths
 | SWARM\_SSL\_ENABLE                 | false                                  | Set to `true` to enable TLS support.                            |
 | SWARM\_SSL\_CERTIFICATE\_FILE      | /etc/ssl/certs/ssl-cert-snakeoil.pem   | Path to certificate file.                                       |
 | SWARM\_SSL\_CERTIFICATE\_KEY\_FILE | /etc/ssl/private/ssl-cert-snakeoil.key | Path to private key file.                                       |
+| SWARM\_TRIGGER\_TOKEN              |                                        | Swarm trigger token to be installed, if not empty.              |
 
 ### Initial configuration
 When started, container checks if `/opt/perforce/swarm/data/config.php` is present.
@@ -97,6 +98,9 @@ After the container has been initialized, all modifications to the Swarm configu
 ### TLS support
 Set `SWARM_SSL_ENABLE` to `true` and provide correct certificate and key files to enable TLS support.
 TLS support can be enabled/disabled/updated through the environment variables at any time (container restart is required).
+
+### Swarm trigger support
+If `SWARM_TRIGGER_TOKEN` is set, it is automatically added to a list of valid trigger tokens upon container startup.
 
 
 ## Examples
