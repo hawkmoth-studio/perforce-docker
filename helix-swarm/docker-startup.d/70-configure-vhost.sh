@@ -9,7 +9,7 @@ if [[ "${SWARM_SSL_ENABLE}" == "true" ]]; then
     fi
     cat <<EOF >/etc/apache2/sites-available/perforce-swarm-site.conf
 # non-ssl virtual host
-<VirtualHost *:${SWARM_PORT}>
+<VirtualHost *:80>
     ServerName  ${SWARM_HOST}
     ServerAlias localhost
 
@@ -26,7 +26,7 @@ if [[ "${SWARM_SSL_ENABLE}" == "true" ]]; then
 </VirtualHost>
 
 # ssl virtual host
-<VirtualHost *:${SWARM_SSL_PORT}>
+<VirtualHost *:443>
     SSLEngine   on
     SSLCertificateFile      ${SWARM_SSL_CERTIFICATE_FILE}
     SSLCertificateKeyFile   ${SWARM_SSL_CERTIFICATE_KEY_FILE}
@@ -50,7 +50,7 @@ else # SSL disabled
     # write apache virtual host configuration file
     cat <<EOF >/etc/apache2/sites-available/perforce-swarm-site.conf
 # non-ssl virtual host
-<VirtualHost *:${SWARM_PORT}>
+<VirtualHost *:80>
     ServerName  ${SWARM_HOST}
     ServerAlias localhost
 
