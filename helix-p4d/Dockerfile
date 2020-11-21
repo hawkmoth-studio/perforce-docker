@@ -40,5 +40,4 @@ HEALTHCHECK --interval=5s --timeout=1s --start-period=15s \
     CMD p4 info
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD ["gosu", "perforce", "p4d"]
-
+CMD gosu perforce p4d -p "${P4PORT}"

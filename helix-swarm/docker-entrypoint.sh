@@ -2,6 +2,9 @@
 
 set -e
 
+# add perforce bin directory to PATH
+PATH="/opt/perforce/bin:${PATH}"
+
 # set environment variables
 export P4PORT="${P4PORT:-ssl:p4d:1666}"
 export P4USER="${P4PASSWD:-p4admin}"

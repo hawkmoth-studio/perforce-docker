@@ -38,9 +38,9 @@ fi
     # and interfere with initialization process
     # shellcheck disable=SC2030
     if [[ "${P4PORT}" == "ssl:"* ]]; then
-        export P4PORT="ssl:1666"
+        export P4PORT="ssl:localhost:1666"
     else
-        export P4PORT="1666"
+        export P4PORT="localhost:1666"
     fi
     # run all scripts from /docker-startup.d
     for f in /docker-startup.d/*.sh; do
@@ -53,4 +53,5 @@ echo "Stopping local-only p4d server..."
 gosu perforce p4dctl stop "${P4NAME}" &>/dev/null
 
 # exec docker command
+echo exec "$@"
 exec "$@"
