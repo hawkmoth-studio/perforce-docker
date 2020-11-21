@@ -20,13 +20,17 @@ RUN curl -s -L https://package.perforce.com/perforce.pubkey | apt-key add - \
  && rm -rf /var/lib/apt/lists/*
 
 
-ENV P4PORT              ssl:1666
-ENV P4SER               super
-ENV P4PASSWD            P@ssw0rd
+ENV P4PORT                  ssl:1666
+ENV P4SER                   super
+ENV P4PASSWD                P@ssw0rd
 
-ENV P4NAME              master
-ENV P4D_CASE_SENSITIVE  0
-ENV P4D_USE_UNICODE     0
+ENV P4NAME                  master
+ENV P4D_CASE_SENSITIVE      0
+ENV P4D_USE_UNICODE         0
+
+ENV INSTALL_SWARM_TRIGGER   false
+ENV SWARM_TRIGGER_HOST      http://swarm
+ENV SWARM_TRIGGER_TOKEN=
 
 
 COPY docker-entrypoint.sh /

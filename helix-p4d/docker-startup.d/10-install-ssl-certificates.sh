@@ -2,11 +2,6 @@
 
 set -e
 
-# create ssl directory
-mkdir -pv "${P4SSLDIR}"
-chown -R perforce:perforce "${P4SSLDIR}"
-chmod 0700 "${P4SSLDIR}"
-
 # install TLS certificate files
 if [[ -n "${P4D_SSL_CERTIFICATE_FILE}" ]]; then
     cp -Lvf "${P4D_SSL_CERTIFICATE_FILE}" "${P4SSLDIR}/certificate.txt"

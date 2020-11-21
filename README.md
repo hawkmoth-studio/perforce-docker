@@ -29,6 +29,9 @@ docker run -v /srv/helix-p4d/data:/data -p 1666:1666 --name=helix-p4d hawkmothst
 | P4D\_USE\_UNICODE                  | true                                   | Set to `false` to disable unicode mode.                         |
 | P4D\_SSL\_CERTIFICATE\_FILE        |                                        | If set, file is copied and used as a TLS certificate.           |
 | P4D\_SSL\_CERTIFICATE\_KEY\_FILE   |                                        | If set, file is copied and used as a TLS private key.           |
+| INSTALL\_SWARM\_TRIGGER            | false                                  | Set to `true` to automatically install / update swarm triggers. |
+| SWARM\_TRIGGER\_HOST               | http://swarm                           | URL to be used by p4d to access Swarm.                          |
+| SWARM\_TRIGGER\_TOKEN              |                                        | Swarm token. Required if swarm trigger installation is enabled. |
 
 ### Initial configuration
 When started for the first time, a new p4d server is initialized with superuser identified by `$P4USER` and `$P4PASSWD`.
@@ -41,6 +44,18 @@ Otherwise, new key and certificate are automatically generated (only during init
 
 Attention: when server detects that key and/or certificate has changed, a new server fingerprint is generated.
 All the clients (including local container client) must be updated to trust this new fingerprint.
+
+### Swarm trigger support
+If `INSTALL_SWARM_TRIGGER` is set to `true`, swarm trigger script and configuration is installed / updated on every container startup.
+The following tasks are performed as part of trigger installation:
+1. Script creates `.swarm` depot if it does not exist.
+1. Script creates a temporary workspace and syncs it to temp directory. This workspace will be deleted later.
+1. Script installs / updates `//.swarm/triggers/swarm-trigger.pl` from the official package.
+1. Using `SWARM_TRIGGER_HOST` and `SWARM_TRIGGER_TOKEN`, the script installs / updates `//.swarm/triggers/swarm-trigger.conf`.
+1. Script submits changes (if any) to the p4d server.
+1. Script updated `p4 triggers` (see [official documentation](https://www.perforce.com/manuals/v18.1/cmdref/Content/CmdRef/p4_triggers.html)).
+
+Beware, setting `INSTALL_SWARM_TRIGGER` to value other than `true` does not remove currently installed triggers!
 
 
 ## helix-swarm
