@@ -33,6 +33,8 @@ ENV P4D_USE_UNICODE     0
 
 COPY docker-entrypoint.sh /
 
+HEALTHCHECK --interval=5s --timeout=1s --start-period=15s \
+    CMD p4 info
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["gosu", "perforce", "p4d"]
