@@ -27,6 +27,7 @@ docker run -v /srv/helix-p4d/data:/data -p 1666:1666 --name=helix-p4d hawkmothst
 | P4PASSWD                           | P@ssw0rd                               | Password of the first user to be created.                       |
 | P4D\_CASE\_SENSITIVE               | false                                  | Set to `true` to enable case-sensitive mode.                    |
 | P4D\_USE\_UNICODE                  | true                                   | Set to `false` to disable unicode mode.                         |
+| P4D\_SECURITY                      | 2                                      | Server security level.                                          |
 | P4D\_SSL\_CERTIFICATE\_FILE        |                                        | If set, file is copied and used as a TLS certificate.           |
 | P4D\_SSL\_CERTIFICATE\_KEY\_FILE   |                                        | If set, file is copied and used as a TLS private key.           |
 | SWARM\_URL                         |                                        | If set, used to update P4.Swarm.URL property.                   |
