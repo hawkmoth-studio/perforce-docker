@@ -30,6 +30,7 @@ ENV P4D_USE_UNICODE     0
 
 
 COPY docker-entrypoint.sh /
+COPY docker-startup.d/    /docker-startup.d/
 
 HEALTHCHECK --interval=5s --timeout=1s --start-period=15s \
     CMD p4 info
