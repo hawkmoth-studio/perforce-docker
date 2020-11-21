@@ -11,6 +11,7 @@ services:
     environment:
       P4USER: 'p4admin'
       P4PASSWD: 'P@ssw0rd'
+      P4D_TYPEMAP: 'ue4'
       SWARM_URL: 'http://localhost'
       INSTALL_SWARM_TRIGGER: 'true'
       SWARM_TRIGGER_TOKEN: '123457809'

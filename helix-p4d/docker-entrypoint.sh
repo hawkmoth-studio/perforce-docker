@@ -54,5 +54,4 @@ echo "Stopping local-only p4d server..."
 gosu perforce p4dctl stop "${P4NAME}" &>/dev/null
 
 # exec docker command
-echo exec "$@"
 exec "$@"

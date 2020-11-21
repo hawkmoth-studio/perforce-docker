@@ -28,6 +28,7 @@ docker run -v /srv/helix-p4d/data:/data -p 1666:1666 --name=helix-p4d hawkmothst
 | P4D\_CASE\_SENSITIVE               | false                                  | Set to `true` to enable case-sensitive mode.                    |
 | P4D\_USE\_UNICODE                  | true                                   | Set to `false` to disable unicode mode.                         |
 | P4D\_SECURITY                      | 2                                      | Server security level.                                          |
+| P4D\_TYPEMAP                       |                                        | Global server typemap.                                          |
 | P4D\_SSL\_CERTIFICATE\_FILE        |                                        | If set, file is copied and used as a TLS certificate.           |
 | P4D\_SSL\_CERTIFICATE\_KEY\_FILE   |                                        | If set, file is copied and used as a TLS private key.           |
 | SWARM\_URL                         |                                        | If set, used to update P4.Swarm.URL property.                   |
@@ -38,6 +39,12 @@ docker run -v /srv/helix-p4d/data:/data -p 1666:1666 --name=helix-p4d hawkmothst
 ### Initial configuration
 When started for the first time, a new p4d server is initialized with superuser identified by `$P4USER` and `$P4PASSWD`.
 Changing these variables after the server has been initialized does not change server's superuser.
+
+### Typemap support
+Provide typemap id in `P4D_TYPEMAP` environment variable to load a pre-configured typemap on server startup.
+Available typemaps:
+* `default` (default perforce typemap)
+* `ue4` (see [Unreal Engine documentation](https://docs.unrealengine.com/en-US/Engine/Basics/SourceControl/Perforce/index.html#p4typemap))
 
 ### TLS support
 If `$P4PORT` value starts with `ssl:`, p4d is configured with TLS support.

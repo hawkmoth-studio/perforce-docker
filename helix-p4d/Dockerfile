@@ -31,11 +31,11 @@ ENV P4D_SECURITY            2
 
 ENV INSTALL_SWARM_TRIGGER   false
 ENV SWARM_TRIGGER_HOST      http://swarm
-ENV SWARM_TRIGGER_TOKEN=
 
 
 COPY docker-entrypoint.sh /
 COPY docker-startup.d/    /docker-startup.d/
+COPY typemaps/            /typemaps/
 
 HEALTHCHECK --interval=5s --timeout=1s --start-period=15s \
     CMD p4 info
