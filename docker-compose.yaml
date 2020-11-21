@@ -1,0 +1,38 @@
+version: '2.1'
+volumes:
+  p4d_data: {}
+  swarm_data: {}
+services:
+  p4d:
+    image: hawkmothstudio/helix-p4d
+    build: helix-p4d
+    ports:
+      - '1666:1666'
+    environment:
+      P4USER: 'p4admin'
+      P4PASSWD: 'P@ssw0rd'
+      SWARM_URL: 'http://localhost'
+      INSTALL_SWARM_TRIGGER: 'true'
+      SWARM_TRIGGER_TOKEN: '123457809'
+    volumes:
+      - p4d_data:/data
+  swarm:
+    image: hawkmothstudio/helix-swarm
+    build: helix-swarm
+    ports:
+      - '80:80'
+    environment:
+      P4PORT: 'ssl:p4d:1666'
+      P4USER: 'p4admin'
+      P4PASSWD: 'P@ssw0rd'
+      SWARM_USER: 'p4admin'
+      SWARM_PASSWD: 'P@ssw0rd'
+      SWARM_USER_CREATE: 'false'
+      SWARM_GROUP_CREATE: 'false'
+      SWARM_HOST: 'localhost'
+      SWARM_PORT: '80'
+      SWARM_TRIGGER_TOKEN: '123457809'
+    volumes:
+      - swarm_data:/opt/perforce/swarm/data
+    depends_on:
+      - p4d
