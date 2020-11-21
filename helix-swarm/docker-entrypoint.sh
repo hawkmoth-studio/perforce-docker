@@ -22,7 +22,7 @@ if [[ ! -f "/opt/perforce/swarm/data/config.php" ]]; then
     CONFIGURE_SWARM_CMD+=("--swarm-port" "${SWARM_PORT}")
     CONFIGURE_SWARM_CMD+=("--email-host" "${EMAIL_HOST}")
     if [[ "${SWARM_USER_CREATE}" == "true" ]]; then
-        CONFIGURE_SWARM_CMD+=("--create-user")
+        CONFIGURE_SWARM_CMD+=("--create")
         if [[ "${SWARM_GROUP_CREATE}" == "true" ]]; then
             CONFIGURE_SWARM_CMD+=("--create-group")
         fi
