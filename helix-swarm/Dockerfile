@@ -42,6 +42,7 @@ ENV EMAIL_HOST          localhost
 
 COPY etc /etc
 COPY docker-entrypoint.sh /
+COPY docker-startup.d/    /docker-startup.d/
 
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
