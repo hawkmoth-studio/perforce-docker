@@ -158,6 +158,8 @@ services:
 ```
 
 ### Loading typemap into p4d
+Warning: helix-p4d image comes with pre-configured typemaps. Please consider using them first before using a custom typemap.
+
 In this example we will load a [UE4 Perforce Typemap](https://docs.unrealengine.com/en-US/Engine/Basics/SourceControl/Perforce/index.html).
 
 There is a [known issue](https://github.com/docker/compose/issues/3352) with `docker-compose` and piping, so we need to use the `docker` command:
