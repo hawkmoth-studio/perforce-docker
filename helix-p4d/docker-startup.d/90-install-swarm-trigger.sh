@@ -30,7 +30,7 @@ export P4CLIENT="$(hostname)"
 if [[ "$(p4 depots -e '.swarm' | wc -l)" == "0" ]]; then
     p4 depot -i <<EOF
 Depot:  .swarm
-Owner:  p4admin
+Owner:  ${P4USER}
 Description:
         Depot used for storing Helix Swarm triggers and configuration.
 Type:   local
