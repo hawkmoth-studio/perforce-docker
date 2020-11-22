@@ -35,7 +35,12 @@ ENV SWARM_TRIGGER_HOST      http://swarm
 
 COPY docker-entrypoint.sh /
 COPY docker-startup.d/    /docker-startup.d/
-COPY typemaps/            /typemaps/
+COPY p4-depots            /p4-depots
+COPY p4-groups            /p4-groups
+COPY p4-passwd            /p4-passwd
+COPY p4-protect           /p4-protect
+COPY p4-typemaps          /p4-typemaps
+COPY p4-users             /p4-users
 
 HEALTHCHECK --interval=5s --timeout=1s --start-period=15s \
     CMD p4 info

@@ -11,7 +11,7 @@ fi
 echo "Installing Swarm triggers..."
 
 # create workspace directory
-P4_WORKSPACE_PATH="/tmp/perforce-${P4NAME}"
+P4_WORKSPACE_PATH="/tmp/${P4NAME}"
 mkdir -p "${P4_WORKSPACE_PATH}"
 cd "${P4_WORKSPACE_PATH}"
 

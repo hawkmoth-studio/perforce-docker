@@ -2,7 +2,7 @@
 
 set -e
 
-export TYPEMAP_DIR="/typemaps"
+export TYPEMAP_DIR="/p4-typemaps"
 
 # check if typemap needs to be loaded
 if [[ -z "${P4D_TYPEMAP}" ]]; then
@@ -15,8 +15,8 @@ if [[ ! -f "${P4D_TYPEMAP_PATH}" ]]; then
     echo "Unable to find typemap with id: ${P4D_TYPEMAP}" 1>&2
     echo "Available typemaps:"
     # shellcheck disable=SC2010
-    for f in $(ls -1 "${TYPEMAP_DIR}" | grep '.*\.txt$' | sort); do
-        echo "    ${f%.txt}"
+    for TYPEMAP_FILE in $(ls -1 "${TYPEMAP_DIR}" | grep '.*\.txt$' | sort); do
+        echo "    ${TYPEMAP_FILE%.txt}"
     done
     exit 1
 fi

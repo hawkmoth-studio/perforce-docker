@@ -43,5 +43,11 @@ fi
 # run configure script
 "${CONFIGURE_P4D_CMD[@]}" 1>/dev/null
 
+# delete default depot if loading depots from spec files
+if [[ "${P4D_LOAD_DEPOTS}" == "true" ]]; then
+    echo "Deleting default depot..."
+    p4 depot -d "depot" 1>/dev/null
+fi
+
 # log to console
 echo "p4d server initialization complete."

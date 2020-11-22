@@ -29,6 +29,11 @@ docker run -v /srv/helix-p4d/data:/data -p 1666:1666 --name=helix-p4d hawkmothst
 | P4D\_USE\_UNICODE                  | true                                   | Set to `false` to disable unicode mode.                         |
 | P4D\_SECURITY                      | 2                                      | Server security level.                                          |
 | P4D\_TYPEMAP                       |                                        | Global server typemap.                                          |
+| P4D\_LOAD\_USERS                   | false                                  | If true, loads user specifications on startup.                  |
+| P4D\_LOAD\_USER\_PASSWORDS         | false                                  | If true, loads user passwords on startup.                       |
+| P4D\_LOAD\_GROUPS                  | false                                  | If true, loads group specifications on startup.                 |
+| P4D\_LOAD\_DEPOTS                  | false                                  | If true, loads depot specifications on startup.                 |
+| P4D\_LOAD\_PROTECTIONS             | false                                  | If true, loads protection lists on startup.                     |
 | P4D\_SSL\_CERTIFICATE\_FILE        |                                        | If set, file is copied and used as a TLS certificate.           |
 | P4D\_SSL\_CERTIFICATE\_KEY\_FILE   |                                        | If set, file is copied and used as a TLS private key.           |
 | SWARM\_URL                         |                                        | If set, used to update P4.Swarm.URL property.                   |
@@ -45,6 +50,72 @@ Provide typemap id in `P4D_TYPEMAP` environment variable to load a pre-configure
 Available typemaps:
 * `default` (default perforce typemap)
 * `ue4` (see [Unreal Engine documentation](https://docs.unrealengine.com/en-US/Engine/Basics/SourceControl/Perforce/index.html#p4typemap))
+
+### Automatic data loading
+`helix-p4d` supports loading certain data on startup.
+This provides an easy way to automate production-ready container deployment.
+
+#### Users
+If `P4D_LOAD_USERS` is set to `true`, all `.txt`-files from `/p4d-users`
+are loaded as user specification files when starting container (in alphabetic order).
+
+Example specification file:
+```text
+User:       johndoe
+Email:      john.doe@example.localdomain
+FullName:   John Doe
+```
+
+#### User passwords
+`p4d` disallows setting user password using specification file when security level is set to `2` or higher.
+If `P4D_LOAD_USER_PASSWORDS` is set to `true`, container uses all `.txt`-files
+from `/p4d-users` to set/update user passwords on startup.
+All files should be named `<username>.txt` and contain only corresponding user password (without newlines).
+
+#### Groups
+If `P4D_LOAD_GROUPS` is set to `true`, all `.txt`-files from `/p4d-groups`
+are loaded as group specification files when starting container (in alphabetic order).
+
+Example specification file:
+```text
+Group:      admins
+Owners:     p4admin
+Users:
+            p4admin
+            johndoe
+```
+
+#### Depots
+If `P4D_LOAD_DEPOTS` is set to `true`, default depot `depot` is not created,
+and all `.txt`-files from `/p4d-depots` are loaded as depot specification files
+when starting container.
+
+Please be advised, certain operations (e.g. updating depot type) is not supported this way.
+In such case, perforce administrator should re-create perforce depot manually. 
+
+Example specification file:
+```text
+Depot:          depot
+Owner:          p4admin
+Description:
+                Default depot.
+Type:           local
+Address:        local
+Suffix:         .p4s
+StreamDepth:    //test/1
+Map:            test/...
+```
+
+#### Depots
+If `P4D_LOAD_PROTECTIONS` is set to `true`, all `.txt`-files from `/p4d-groups` (in alphabetic order)
+are merged together and loaded as protection specification when starting container.
+
+Example specification file (see documentation for `p4 protect` for more details):
+```text
+    write user * * //...
+    list user * * -//spec/...
+    super user p4admin * //...
+```
 
 ### TLS support
 If `$P4PORT` value starts with `ssl:`, p4d is configured with TLS support.
