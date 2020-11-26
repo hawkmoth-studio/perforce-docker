@@ -14,6 +14,6 @@ if [[ "$(ls -1 /p4-protect/*.txt 2>/dev/null | wc -l | awk '{ print $1 }')" == "
 fi
 
 # load all from /p4-protect
-p4 depot -i <<EOF
-$(cat "/p4-protect/*.txt")
+p4 protect -i <<EOF
+$(cat /p4-protect/*.txt)
 EOF
