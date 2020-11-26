@@ -22,7 +22,7 @@ RUN curl -s -L https://package.perforce.com/perforce.pubkey | apt-key add - \
 
 
 ENV P4PORT              ssl:p4d:1666
-ENV P4SER               super
+ENV P4USER              super
 ENV P4PASSWD            P@ssw0rd
 
 ENV SWARM_USER          ${P4USER}
