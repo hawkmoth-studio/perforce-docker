@@ -56,7 +56,7 @@ Available typemaps:
 This provides an easy way to automate production-ready container deployment.
 
 #### Users
-If `P4D_LOAD_USERS` is set to `true`, all `.txt`-files from `/p4d-users`
+If `P4D_LOAD_USERS` is set to `true`, all `.txt`-files from `/p4-users`
 are loaded as user specification files when starting container (in alphabetic order).
 
 Example specification file:
@@ -69,11 +69,11 @@ FullName:   John Doe
 #### User passwords
 `p4d` disallows setting user password using specification file when security level is set to `2` or higher.
 If `P4D_LOAD_USER_PASSWORDS` is set to `true`, container uses all `.txt`-files
-from `/p4d-users` to set/update user passwords on startup.
+from `/p4-passwd` to set/update user passwords on startup.
 All files should be named `<username>.txt` and contain only corresponding user password (without newlines).
 
 #### Groups
-If `P4D_LOAD_GROUPS` is set to `true`, all `.txt`-files from `/p4d-groups`
+If `P4D_LOAD_GROUPS` is set to `true`, all `.txt`-files from `/p4-groups`
 are loaded as group specification files when starting container (in alphabetic order).
 
 Example specification file:
@@ -87,7 +87,7 @@ Users:
 
 #### Depots
 If `P4D_LOAD_DEPOTS` is set to `true`, default depot `depot` is not created,
-and all `.txt`-files from `/p4d-depots` are loaded as depot specification files
+and all `.txt`-files from `/p4-depots` are loaded as depot specification files
 when starting container.
 
 Please be advised, certain operations (e.g. updating depot type) is not supported this way.
@@ -102,12 +102,12 @@ Description:
 Type:           local
 Address:        local
 Suffix:         .p4s
-StreamDepth:    //test/1
-Map:            test/...
+StreamDepth:    //depot/1
+Map:            depot/...
 ```
 
 #### Depots
-If `P4D_LOAD_PROTECTIONS` is set to `true`, all `.txt`-files from `/p4d-groups` (in alphabetic order)
+If `P4D_LOAD_PROTECTIONS` is set to `true`, all `.txt`-files from `/p4-protect` (in alphabetic order)
 are merged together and loaded as protection specification when starting container.
 
 Example specification file (see documentation for `p4 protect` for more details):
