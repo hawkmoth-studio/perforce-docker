@@ -12,9 +12,15 @@ docker run -v /srv/helix-p4d/data:/data -p 1666:1666 --name=helix-p4d hawkmothst
 ```
 
 ### Volumes
-| Volume Name | Description           |
-| ----------- | --------------------- |
-| /data       | Server data directory |
+| Volume Name   | Description                                               |
+| ------------- | --------------------------------------------------------- |
+| /data         | Server data directory                                     |
+| /p4-depots    | List of depot specifications to load on start             |
+| /p4-groups    | List of group specifications to load on start             |
+| /p4-passwd    | Users password to load on start                           |
+| /p4-protect   | List of protections to load on start                      |
+| /p4-typemaps  | List of protections to load on start                      |
+| /p4-users     | List of user specifications to load on start              |
 
 ### Container environment variables
 | Variable Name                      | Default value                          | Description                                                     |
