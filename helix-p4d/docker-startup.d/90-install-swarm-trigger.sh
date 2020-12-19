@@ -95,14 +95,19 @@ fi
 # configure triggers
 p4 triggers -i <<EOF 1>/dev/null
 Triggers:
-	swarm.job        form-commit   job    "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t job        -v %formname%"
-	swarm.user       form-commit   user   "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t user       -v %formname%"
-	swarm.userdel    form-delete   user   "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t userdel    -v %formname%"
-	swarm.group      form-commit   group  "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t group      -v %formname%"
-	swarm.groupdel   form-delete   group  "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t groupdel   -v %formname%"
-	swarm.changesave form-save     change "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t changesave -v %formname%"
-	swarm.shelve     shelve-commit //...  "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t shelve     -v %change%"
-	swarm.commit     change-commit //...  "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t commit     -v %change%"
+    swarm.job        form-commit    job    "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t job        -v %formname%"
+    swarm.user       form-commit    user   "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t user       -v %formname%"
+    swarm.userdel    form-delete    user   "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t userdel    -v %formname%"
+    swarm.group      form-commit    group  "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t group      -v %formname%"
+    swarm.groupdel   form-delete    group  "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t groupdel   -v %formname%"
+    swarm.changesave form-save      change "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t changesave -v %formname%"
+    swarm.shelve     shelve-commit  //...  "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t shelve     -v %change%"
+    swarm.commit     change-commit  //...  "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t commit     -v %change%"
+    swarm.shelvedel  shelve-delete  //...  "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t shelvedel  -v %change% -w %client% -u %user% -d %quote%%clientcwd%^^^%quote% -a %quote%%argsQuoted%%quote% -s %quote%%serverVersion%%quote%"
+#    The following three triggers are used by workflow. If workflow is disabled in the Swarm configuration then they should be disabled.
+    swarm.enforce    change-submit  //...  "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t checkenforced -v %change% -u %user%"
+    swarm.strict     change-content //...  "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t checkstrict   -v %change% -u %user%"
+    swarm.shelvesub  shelve-submit  //...  "%//.swarm/triggers/swarm-trigger.pl% -c %//.swarm/triggers/swarm-trigger.conf% -t checkshelve   -v %change% -u %user%"
 EOF
 
 # log to console
