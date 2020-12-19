@@ -7,6 +7,7 @@ export P4PORT="${P4PORT:-ssl:1666}"
 export P4NAME="${P4NAME:-master}"
 export P4ROOT="/data/${P4NAME}/root"
 export P4SSLDIR="${P4ROOT}/ssl"
+export P4D_FILETYPE_BYPASSLOCK="${P4D_FILETYPE_BYPASSLOCK:-1}"
 export P4D_SECURITY="${P4D_SECURITY:-2}"
 
 # link p4dctl service configuration file into /etc/perforce/
