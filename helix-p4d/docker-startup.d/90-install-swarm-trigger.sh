@@ -120,6 +120,6 @@ EOF
 echo "Swarm triggers successfully installed."
 
 # disconnect from server
-p4 client -d "${P4CLIENT}" 1>/dev/null
+p4 client -f -d "${P4CLIENT}" 1>/dev/null
 # remove workspace files
 rm -rf "${P4_WORKSPACE_PATH}"
