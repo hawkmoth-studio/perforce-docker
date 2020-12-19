@@ -174,6 +174,7 @@ docker run -it --rm -e P4PORT=ssl:p4d:1666 -p 80:80 --name helix-swarm hawkmoths
 | SWARM\_SSL\_CERTIFICATE\_FILE      | /etc/ssl/certs/ssl-cert-snakeoil.pem   | Path to certificate file.                                       |
 | SWARM\_SSL\_CERTIFICATE\_KEY\_FILE | /etc/ssl/private/ssl-cert-snakeoil.key | Path to private key file.                                       |
 | SWARM\_TRIGGER\_TOKEN              |                                        | Swarm trigger token to be installed, if not empty.              |
+| SWARM\_P4D\_NOWAIT                 |                                        | Set to `true` to disable waiting for p4d to start.                |
 
 ### Initial configuration
 When started, container checks if `/opt/perforce/swarm/data/config.php` is present.

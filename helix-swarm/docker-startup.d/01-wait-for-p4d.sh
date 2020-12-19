@@ -6,6 +6,11 @@ set -e
 max_iterations=15
 iterations=0
 
+# skip waiting for p4d to start if required
+if [[ "${SWARM_P4D_NOWAIT}" == "true" ]]; then
+    exit 0
+fi
+
 # if p4d is ssl-enabled, we should use p4 trust to test for connection
 if [[ "${P4PORT}" == "ssl:"* ]]; then
     P4_CHECK_CMD="p4 trust -y"
