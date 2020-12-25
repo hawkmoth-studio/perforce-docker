@@ -1,0 +1,9 @@
+Depot:          depot
+Owner:          p4admin
+Description:
+                Default depot.
+Type:           local
+Address:        local
+Suffix:         .p4s
+StreamDepth:    //depot/1
+Map:            depot/...
