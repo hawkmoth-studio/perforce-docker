@@ -61,30 +61,24 @@ p4 sync 1>/dev/null
 
 # install swarm triggers
 mkdir -p "${SWARM_TRIGGER_INSTALL_DIR}"
+
 # install / update swarm-trigger.pl
 if [[ ! -f "${SWARM_TRIGGER_SCRIPT_PATH}" ]]; then
-    touch "${SWARM_TRIGGER_SCRIPT_PATH}"
+    cp -f "${SWARM_TRIGGER_SCRIPT_SOURCE}" "${SWARM_TRIGGER_SCRIPT_PATH}"
     p4 add "${SWARM_TRIGGER_SCRIPT_PATH}" 1>/dev/null
-else
+elif [[ "$(md5sum "${SWARM_TRIGGER_SCRIPT_PATH}" | awk '{ print $1 }')" != "$(md5sum "${SWARM_TRIGGER_SCRIPT_SOURCE}" | awk '{ print $1 }')" ]]; then
     p4 edit "${SWARM_TRIGGER_SCRIPT_PATH}" 1>/dev/null
+    cp -f "${SWARM_TRIGGER_SCRIPT_SOURCE}" "${SWARM_TRIGGER_SCRIPT_PATH}"
 fi
-cp -f "${SWARM_TRIGGER_SCRIPT_SOURCE}" "${SWARM_TRIGGER_SCRIPT_PATH}"
+
 # install / update swarm-trigger.conf
+SWARM_TRIGGER_CONF_SOURCE=$(mktemp /tmp/swarm-trigger.conf.XXXXXX)
 if [[ ! -f "${SWARM_TRIGGER_CONF_PATH}" ]]; then
-    touch "${SWARM_TRIGGER_CONF_PATH}"
+    cp -f "${SWARM_TRIGGER_CONF_SOURCE}" "${SWARM_TRIGGER_CONF_PATH}"
     p4 add "${SWARM_TRIGGER_CONF_PATH}" 1>/dev/null
-else
-    p4 edit "${SWARM_TRIGGER_SCRIPT_PATH}" 1>/dev/null
-fi
-if ! grep -e '^SWARM_HOST=' &>/dev/null; then
-    echo "SWARM_HOST=\"${SWARM_TRIGGER_HOST}\"" >>"${SWARM_TRIGGER_CONF_PATH}"
-else
-    sed -i -e "s#^SWARM_HOST=(.*)\$#SWARM_HOST=${SWARM_TRIGGER_HOST}#g"
-fi
-if ! grep -e '^SWARM_TOKEN=' &>/dev/null; then
-    echo "SWARM_TOKEN=\"${SWARM_TRIGGER_TOKEN}\"" >>"${SWARM_TRIGGER_CONF_PATH}"
-else
-    sed -i -e "s#^SWARM_TOKEN=(.*)\$#SWARM_TOKEN=${SWARM_TRIGGER_TOKEN}#g"
+elif [[ "$(md5sum "${SWARM_TRIGGER_CONF_PATH}" | awk '{ print $1 }')" != "$(md5sum "${SWARM_TRIGGER_CONF_SOURCE}" | awk '{ print $1 }')" ]]; then
+    p4 edit "${SWARM_TRIGGER_CONF_PATH}" 1>/dev/null
+    cp -f "${SWARM_TRIGGER_CONF_SOURCE}" "${SWARM_TRIGGER_CONF_PATH}"
 fi
 
 # check if there are any changes to commit
