@@ -80,6 +80,7 @@ elif [[ "$(md5sum "${SWARM_TRIGGER_CONF_PATH}" | awk '{ print $1 }')" != "$(md5s
     p4 edit "${SWARM_TRIGGER_CONF_PATH}" 1>/dev/null
     cp -f "${SWARM_TRIGGER_CONF_SOURCE}" "${SWARM_TRIGGER_CONF_PATH}"
 fi
+rm -vf "${SWARM_TRIGGER_CONF_SOURCE}"
 
 # check if there are any changes to commit
 if [[ "$(p4 status 2>/dev/null | wc -l)" != "0" ]]; then
