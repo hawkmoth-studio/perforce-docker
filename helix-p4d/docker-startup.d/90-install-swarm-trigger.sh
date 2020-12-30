@@ -90,11 +90,6 @@ rm -vf "${SWARM_TRIGGER_CONF_SOURCE}"
 
 # check if there are any changes to commit
 if [[ "$(p4 status 2>/dev/null | wc -l)" != "0" ]]; then
-    # triggers need to be disabled before submitting trigger updated
-    # or else local submit can fail because swarm is not yet available
-    p4 triggers -i <<EOF 1>/dev/null
-Triggers:
-EOF
     # submit updated triggers
     p4 submit -d 'Installed / updated swarm triggers.' 1>/dev/null || true
 fi
