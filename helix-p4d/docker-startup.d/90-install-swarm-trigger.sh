@@ -71,8 +71,13 @@ elif [[ "$(md5sum "${SWARM_TRIGGER_SCRIPT_PATH}" | awk '{ print $1 }')" != "$(md
     cp -f "${SWARM_TRIGGER_SCRIPT_SOURCE}" "${SWARM_TRIGGER_SCRIPT_PATH}"
 fi
 
-# install / update swarm-trigger.conf
+# write swarm-trigger.conf to a temporary file
 SWARM_TRIGGER_CONF_SOURCE=$(mktemp /tmp/swarm-trigger.conf.XXXXXX)
+cat <<EOF >"${SWARM_TRIGGER_CONF_SOURCE}"
+SWARM_HOST="${SWARM_TRIGGER_HOST}"
+SWARM_TOKEN="${SWARM_TRIGGER_TOKEN}"
+EOF
+# install / update swarm-trigger.conf
 if [[ ! -f "${SWARM_TRIGGER_CONF_PATH}" ]]; then
     cp -f "${SWARM_TRIGGER_CONF_SOURCE}" "${SWARM_TRIGGER_CONF_PATH}"
     p4 add "${SWARM_TRIGGER_CONF_PATH}" 1>/dev/null
@@ -80,6 +85,7 @@ elif [[ "$(md5sum "${SWARM_TRIGGER_CONF_PATH}" | awk '{ print $1 }')" != "$(md5s
     p4 edit "${SWARM_TRIGGER_CONF_PATH}" 1>/dev/null
     cp -f "${SWARM_TRIGGER_CONF_SOURCE}" "${SWARM_TRIGGER_CONF_PATH}"
 fi
+# remove temporary swarm-trigger.conf file
 rm -vf "${SWARM_TRIGGER_CONF_SOURCE}"
 
 # check if there are any changes to commit
