@@ -3,12 +3,13 @@
 set -e
 
 # set environment variables
-export P4PORT="${P4PORT:-ssl:1666}"
-export P4NAME="${P4NAME:-master}"
-export P4ROOT="/data/${P4NAME}/root"
-export P4SSLDIR="${P4ROOT}/ssl"
+export P4D_CASE_SENSITIVE="false"
 export P4D_FILETYPE_BYPASSLOCK="${P4D_FILETYPE_BYPASSLOCK:-1}"
 export P4D_SECURITY="${P4D_SECURITY:-2}"
+export P4D_USE_UNICODE="false"
+
+export INSTALL_SWARM_TRIGGER="${INSTALL_SWARM_TRIGGER:-false}"
+export SWARM_TRIGGER_HOST="${SWARM_TRIGGER_HOST:-http://swarm}"
 
 # link p4dctl service configuration file into /etc/perforce/
 P4_CONF_DIR="/data/config"

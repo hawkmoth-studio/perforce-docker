@@ -2,17 +2,18 @@
 
 set -e
 
-# add perforce bin directory to PATH
-PATH="/opt/perforce/bin:${PATH}"
-
 # set environment variables
-export P4PORT="${P4PORT:-ssl:p4d:1666}"
-export P4USER="${P4PASSWD:-p4admin}"
-export P4PASSWD="${P4PASSWD:-P@ssw0rd}"
+export SWARM_USER="${SWARM_USER:-${P4USER}}"
+export SWARM_PASSWD="${SWARM_PASSWD:-${P4PASSWD}}"
+export SWARM_USER_CREATE="${SWARM_USER_CREATE:-false}"
+export SWARM_GROUP_CREATE="${SWARM_GROUP_CREATE:-false}"
 
 export SWARM_HOST="${SWARM_HOST:-localhost}"
 export SWARM_PORT="${SWARM_PORT:-80}"
 export SWARM_SSL_PORT="${SWARM_SSL_PORT:-443}"
+export SWARM_SSL_ENABLE="${SWARM_SSL_ENABLE:-false}"
+
+export EMAIL_HOST="${EMAIL_HOST:-localhost}"
 
 export SWARM_DATA_DIR="/opt/perforce/swarm/data"
 

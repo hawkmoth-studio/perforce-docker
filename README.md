@@ -32,7 +32,7 @@ docker run -v /srv/helix-p4d/data:/data -p 1666:1666 --name=helix-p4d hawkmothst
 | P4USER                             | super                                  | Login of the first user to be created.                          |
 | P4PASSWD                           | P@ssw0rd                               | Password of the first user to be created.                       |
 | P4D\_CASE\_SENSITIVE               | false                                  | Set to `true` to enable case-sensitive mode.                    |
-| P4D\_USE\_UNICODE                  | true                                   | Set to `false` to disable unicode mode.                         |
+| P4D\_USE\_UNICODE                  | false                                  | Set to `true` to enable unicode mode.                           |
 | P4D\_FILETYPE\_BYPASSLOCK          | 1                                      | Enable / disable bypasslock (needed by Swarm).                  |
 | P4D\_SECURITY                      | 2                                      | Server security level.                                          |
 | P4D\_TYPEMAP                       |                                        | Global server typemap.                                          |
@@ -163,9 +163,9 @@ docker run -it --rm -e P4PORT=ssl:p4d:1666 -p 80:80 --name helix-swarm hawkmoths
 | Variable Name                      | Default value                          | Description                                                     |
 | ---------------------------------- | -------------------------------------- | --------------------------------------------------------------- |
 | P4PORT                             | ssl:p4d:1666                           | p4d server connection string.                                   |
-| P4USER                             | super                                  | User to be used when running p4 commands from console.          |
+| P4USER                             | p4admin                                | User to be used when running p4 commands from console.          |
 | P4PASSWD                           | P@ssw0rd                               | `$P4USER`'s password.                                           |
-| SWARM\_USER                        | super                                  | User to be used by Swarm to connect to p4d.                     |
+| SWARM\_USER                        | p4admin                                | User to be used by Swarm to connect to p4d.                     |
 | SWARM\_PASSWD                      | P@ssw0rd                               | `$SWARM_USER`'s password.                                       |
 | SWARM\_USER\_CREATE                | false                                  | Set to `true` to create `$SWARM_USER` on the p4d server.        |
 | SWARM\_GROUP\_CREATE               | false                                  | Set to `true` to create long-lived ticket group for swarm user. |
@@ -175,7 +175,7 @@ docker run -it --rm -e P4PORT=ssl:p4d:1666 -p 80:80 --name helix-swarm hawkmoths
 | SWARM\_SSL\_CERTIFICATE\_FILE      | /etc/ssl/certs/ssl-cert-snakeoil.pem   | Path to certificate file.                                       |
 | SWARM\_SSL\_CERTIFICATE\_KEY\_FILE | /etc/ssl/private/ssl-cert-snakeoil.key | Path to private key file.                                       |
 | SWARM\_TRIGGER\_TOKEN              |                                        | Swarm trigger token to be installed, if not empty.              |
-| SWARM\_P4D\_NOWAIT                 |                                        | Set to `true` to disable waiting for p4d to start.                |
+| SWARM\_P4D\_NOWAIT                 |                                        | Set to `true` to disable waiting for p4d to start.              |
 
 ### Initial configuration
 When started, container checks if `/opt/perforce/swarm/data/config.php` is present.

@@ -25,12 +25,8 @@ ENV P4USER                  super
 ENV P4PASSWD                P@ssw0rd
 
 ENV P4NAME                  master
-ENV P4D_CASE_SENSITIVE      0
-ENV P4D_USE_UNICODE         0
-ENV P4D_SECURITY            2
-
-ENV INSTALL_SWARM_TRIGGER   false
-ENV SWARM_TRIGGER_HOST      http://swarm
+ENV P4ROOT                  /data/${P4NAME}/root
+ENV P4SSLDIR                ${P4ROOT}/ssl
 
 
 COPY docker-entrypoint.sh /
