@@ -29,8 +29,8 @@ docker run -v /srv/helix-p4d/data:/data -p 1666:1666 --name=helix-p4d hawkmothst
 | P4ROOT                             | /data/master                           | p4d data directory, leave default value (recommended).          |
 | P4SSLDIR                           | /data/master/root/ssl                  | Directory with ssl certificate and private key.                 |
 | P4PORT                             | ssl:1666                               | Server port. By default, connection is secured by TLS.          |
-| P4USER                             | super                                  | Login of the first user to be created.                          |
-| P4PASSWD                           | P@ssw0rd                               | Password of the first user to be created.                       |
+| P4USER                             | p4admin                                | Login of the admin user to be created.                          |
+| P4PASSWD                           | P@ssw0rd                               | Password of the admin user to be created.                       |
 | P4D\_CASE\_SENSITIVE               | false                                  | Set to `true` to enable case-sensitive mode.                    |
 | P4D\_USE\_UNICODE                  | false                                  | Set to `true` to enable unicode mode.                           |
 | P4D\_FILETYPE\_BYPASSLOCK          | 1                                      | Enable / disable bypasslock (needed by Swarm).                  |
