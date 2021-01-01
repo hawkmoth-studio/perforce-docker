@@ -15,5 +15,6 @@ fi
 
 # load all from /p4-protect
 p4 protect -i <<EOF
+Protections:
 $(cat /p4-protect/*.txt)
 EOF
