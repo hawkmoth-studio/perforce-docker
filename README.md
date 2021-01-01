@@ -35,7 +35,7 @@ docker run -v /srv/helix-p4d/data:/data -p 1666:1666 --name=helix-p4d hawkmothst
 | P4D\_USE\_UNICODE                  | false                                  | Set to `true` to enable unicode mode.                           |
 | P4D\_FILETYPE\_BYPASSLOCK          | 1                                      | Enable / disable bypasslock (needed by Swarm).                  |
 | P4D\_SECURITY                      | 2                                      | Server security level.                                          |
-| P4D\_TYPEMAP                       |                                        | Global server typemap.                                          |
+| P4D\_LOAD\_TYPEMAPS                | false                                  | If true, loads typemap specifications on startup.               |
 | P4D\_LOAD\_USERS                   | false                                  | If true, loads user specifications on startup.                  |
 | P4D\_LOAD\_USER\_PASSWORDS         | false                                  | If true, loads user passwords on startup.                       |
 | P4D\_LOAD\_GROUPS                  | false                                  | If true, loads group specifications on startup.                 |
@@ -52,15 +52,17 @@ docker run -v /srv/helix-p4d/data:/data -p 1666:1666 --name=helix-p4d hawkmothst
 When started for the first time, a new p4d server is initialized with superuser identified by `$P4USER` and `$P4PASSWD`.
 Changing these variables after the server has been initialized does not change server's superuser.
 
-### Typemap support
-Provide typemap id in `P4D_TYPEMAP` environment variable to load a pre-configured typemap on server startup.
-Available typemaps:
-* `default` (default perforce typemap)
-* `ue4` (see [Unreal Engine documentation](https://docs.unrealengine.com/en-US/Engine/Basics/SourceControl/Perforce/index.html#p4typemap))
-
 ### Automatic data loading
 `helix-p4d` supports loading certain data on startup.
 This provides an easy way to automate production-ready container deployment.
+
+#### Typemaps
+If `P4D_LOAD_TYPEMAPS` is set to `true`, all `.txt`-files from `/p4-typemap`
+are loaded as typemap specification files when starting container (in alphabetic order).
+
+See the following example specification files:
+* [default perforce typemap](helix-p4d/p4-typemap/default.sample)
+* [typemap for a depot containing an Unreal Engine project](helix-p4d/p4-typemap/ue4.sample)
 
 #### Users
 If `P4D_LOAD_USERS` is set to `true`, all `.txt`-files from `/p4-users`

@@ -11,7 +11,7 @@ services:
     environment:
       P4USER: 'p4admin'
       P4PASSWD: 'P@ssw0rd'
-      P4D_TYPEMAP: 'ue4'
+      P4D_LOAD_TYPEMAPS: 'false'
       P4D_LOAD_USERS: 'false'
       P4D_LOAD_USER_PASSWORDS: 'false'
       P4D_LOAD_GROUPS: 'false'

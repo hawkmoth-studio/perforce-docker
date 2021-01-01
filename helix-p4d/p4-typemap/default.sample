@@ -1,4 +1,3 @@
-    # default typemap
     text        //....asp
     text        //....cnf
     text        //....css
@@ -7,7 +6,7 @@
     text        //....inc
     text        //....js
     text+w      //....log
-#   text+w      //....ini # overriden in ue4 typemap
+    text+w      //....ini
     text+w      //....pdm
     binary+Fl   //....zip
     binary+Fl   //....bz2
@@ -24,16 +23,16 @@
     binary+l    //....ico
     binary+l    //....exp
     binary+l    //....btr
-#   binary+l    //....bmp # overriden in ue4 typemap
+    binary+l    //....bmp
     binary+l    //....doc
     binary+l    //....dot
     binary+l    //....xls
     binary+l    //....ppt
     binary+l    //....pdf
     binary+l    //....tar
-#   binary+l    //....exe # overriden in ue4 typemap
-#   binary+l    //....dll # overriden in ue4 typemap
-#   binary+l    //....lib # overriden in ue4 typemap
+    binary+l    //....exe
+    binary+l    //....dll
+    binary+l    //....lib
     binary+l    //....bin
     binary+l    //....class
     binary+l    //....war
@@ -62,27 +61,3 @@
     binary+l    //....ott
     binary+l    //....psd
     binary+l    //....sxw
-    
-    # ue4 typemap - see https://docs.unrealengine.com/en-US/Engine/Basics/SourceControl/Perforce/index.html#p4typemap
-    binary+w    //....exe
-    binary+w    //....dll
-    binary+w    //....lib
-    binary+w    //....app
-    binary+w    //....dylib
-    binary+w    //....stub
-    binary+w    //....ipa
-    binary      //....bmp
-    text        //....ini
-    text        //....config
-    text        //....cpp
-    text        //....h
-    text        //....c
-    text        //....cs
-    text        //....m
-    text        //....mm
-    text        //....py
-    binary+l    //....uasset
-    binary+l    //....umap
-    binary+l    //....upk
-    binary+l    //....udk
-    binary+l    //....ubulk

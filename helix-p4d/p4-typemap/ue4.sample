@@ -1,0 +1,96 @@
+    # archives
+    binary+Fl   //depot/....bz2
+    binary+Fl   //depot/....gz
+    binary+Fl   //depot/....rar
+    binary+l    //depot/....tar
+    binary+Fl   //depot/....zip
+
+    # images and textures
+    binary+l    //depot/....bmp
+    binary+Fl   //depot/....gif
+    binary+l    //depot/....ico
+    binary+Fl   //depot/....jpg
+    binary+Fl   //depot/....jpeg
+    binary+Fl   //depot/....tif
+    binary+l    //depot/....png
+    binary+l    //depot/....psd
+    binary+l    //depot/....tga
+    binary+l    //depot/....tiff
+
+    # audio files
+    binary+l    //depot/....aac
+    binary+l    //depot/....m4a
+
+    # video files
+    binary+Fl   //depot/....avi
+    binary+Fl   //depot/....mov
+    binary+l    //depot/....mp4
+    binary+Fl   //depot/....mpg
+    binary+l    //depot/....wma
+
+    # 3d assets
+    binary+l    //depot/....fbx
+    binary+l    //depot/....obj
+
+    # CAD files
+    binary+l    //depot/....3ds
+    binary+l    //depot/....blend
+    binary+l    //depot/....ma
+    binary+l    //depot/....mb
+    binary+l    //depot/....prj
+    binary+l    //depot/....spp
+    binary+l    //depot/....tbscene
+    binary+l    //depot/....ztl
+    binary+l    //depot/....zpr
+
+    # documentation and data tables
+    text+l      //depot/....csv
+    binary+l    //depot/....doc
+    binary+l    //depot/....docx
+    binary+l    //depot/....odg
+    binary+l    //depot/....odp
+    binary+l    //depot/....ods
+    binary+l    //depot/....odt
+    binary+l    //depot/....otg
+    binary+l    //depot/....ots
+    binary+l    //depot/....ott
+    binary+l    //depot/....pdf
+    binary+l    //depot/....ppt
+    binary+l    //depot/....pptx
+    binary+l    //depot/....sxw
+    binary+l    //depot/....xls
+    binary+l    //depot/....xlsx
+
+    # configuration files
+    text        //depot/....cnf
+    text        //depot/....config
+    text        //depot/....ini
+
+    # source code
+    text        //depot/....c
+    text        //depot/....cpp
+    text        //depot/....cs
+    text        //depot/....h
+    text        //depot/....inc
+    text        //depot/....m
+    text        //depot/....mm
+    text        //depot/....py
+
+    # Unreal Engine assets
+    binary+l    //depot/....uasset
+    binary+l    //depot/....umap
+    binary+l    //depot/....upk
+    binary+l    //depot/....udk
+    binary+l    //depot/....ubulk
+
+    # build output
+    binary+w    //depot/....app
+    binary+w    //depot/....dll
+    binary+w    //depot/....dylib
+    binary+w    //depot/....exe
+    binary+w    //depot/....ipa
+    binary+w    //depot/....lib
+    text+w      //depot/....log
+    binary+w    //depot/....pdb
+    binary+w    //depot/....so
+    binary+w    //depot/....stub
