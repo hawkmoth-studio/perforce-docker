@@ -3,10 +3,14 @@ FROM ubuntu:18.04
 
 RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive \
+    apt-get -y upgrade \
+ && DEBIAN_FRONTEND=noninteractive \
     apt-get -y install \
         curl \
         gosu \
         software-properties-common \
+        vim-tiny \
+ && update-alternatives --install /usr/bin/editor editor /usr/bin/vi 1000 \
  && rm -rf /var/lib/apt/lists/*
 
 
