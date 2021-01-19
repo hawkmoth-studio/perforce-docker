@@ -11,6 +11,7 @@ services:
     environment:
       P4USER: 'p4admin'
       P4PASSWD: 'P@ssw0rd'
+      P4D_USE_UNICODE: 'true'
       P4D_LOAD_TYPEMAPS: 'false'
       P4D_LOAD_USERS: 'false'
       P4D_LOAD_USER_PASSWORDS: 'false'
@@ -31,6 +32,7 @@ services:
       P4PORT: 'ssl:p4d:1666'
       P4USER: 'p4admin'
       P4PASSWD: 'P@ssw0rd'
+      P4D_USE_UNICODE: 'true'
       SWARM_USER: 'p4admin'
       SWARM_PASSWD: 'P@ssw0rd'
       SWARM_USER_CREATE: 'false'

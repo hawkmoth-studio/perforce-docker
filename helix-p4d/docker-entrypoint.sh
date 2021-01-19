@@ -22,6 +22,11 @@ fi
 mv /etc/perforce{,.orig}
 ln -s "${P4_CONF_DIR}" "/etc/perforce"
 
+# set P4CHARSET if unset and server is running in unicode mode
+if [[ "${P4D_USE_UNICODE}" == "true" ]]; then
+    export P4CHARSET="${P4CHARSET:-auto}"
+fi
+
 # validate swarm trigger parameters
 if [[ "${INSTALL_SWARM_TRIGGER}" == "true" ]]; then
     if [[ -z "${SWARM_TRIGGER_HOST}" ]]; then
