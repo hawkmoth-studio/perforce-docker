@@ -20,7 +20,7 @@ jobs:
           images: hawkmothstudio/helix-p4d
           tag-semver: |
             {{version}}
-            {{major.minor}}
+            {{major}}.{{minor}}
             {{major}}
       - name: Set image tags for helix-swarm
         id: swarm_meta
@@ -29,7 +29,7 @@ jobs:
           images: hawkmothstudio/helix-swarm
           tag-semver: |
             {{version}}
-            {{major.minor}}
+            {{major}}.{{minor}}
             {{major}}
 
       - uses: docker/setup-qemu-action@v1
