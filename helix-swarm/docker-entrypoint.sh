@@ -18,7 +18,7 @@ export EMAIL_HOST="${EMAIL_HOST:-localhost}"
 export SWARM_DATA_DIR="/opt/perforce/swarm/data"
 
 # set P4CHARSET if unset and server is running in unicode mode
-export P4D_USE_UNICODE="${P4D_USE_UNICODE:-false}"
+export P4D_USE_UNICODE="${P4D_USE_UNICODE:-true}"
 if [[ "${P4D_USE_UNICODE}" == "true" ]]; then
     export P4CHARSET="${P4CHARSET:-auto}"
 fi

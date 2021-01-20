@@ -32,6 +32,7 @@ docker run -v /srv/helix-p4d/data:/data -p 1666:1666 --name=helix-p4d hawkmothst
 | P4PORT                             | ssl:1666                               | Server port. By default, connection is secured by TLS.          |
 | P4USER                             | p4admin                                | Login of the admin user to be created.                          |
 | P4PASSWD                           | P@ssw0rd                               | Password of the admin user to be created.                       |
+| P4CHARSET                          | `auto` if unicode is enabled.          | Charset the local client will to perform administrative tasks.  |
 | P4D\_CASE\_SENSITIVE               | false                                  | Set to `true` to enable case-sensitive mode.                    |
 | P4D\_USE\_UNICODE                  | false                                  | Set to `true` to enable unicode mode.                           |
 | P4D\_FILETYPE\_BYPASSLOCK          | 1                                      | Enable / disable bypasslock (needed by Swarm).                  |
@@ -54,7 +55,13 @@ When started for the first time, a new p4d server is initialized with superuser 
 Changing these variables after the server has been initialized does not change server's superuser.
 
 ### Unicode support
-When initializing, p4d can create database files with or without (by default) unicode support.
+When initializing, p4d can create database files with (by default) or without unicode support.
+Please pay attention to this parameter when initializing p4d database, as unicode support cannot be turned off once it has been enabled.
+It is enabled by default as using non-unicode servers today is rather rare and can lead to unexpected issues with file sync.
+
+If `P4D_USE_UNICODE` is enabled after p4d database has been initialized,
+`helix-p4d` will attempt to convert database files to unicode upon startup.
+
 For more information on unicode support in Perforce, please refer to [official documentation](https://community.perforce.com/s/article/3106).
 
 ### Automatic data loading
@@ -172,6 +179,7 @@ docker run -it --rm -e P4PORT=ssl:p4d:1666 -p 80:80 --name helix-swarm hawkmoths
 | P4PORT                             | ssl:p4d:1666                           | p4d server connection string.                                   |
 | P4USER                             | p4admin                                | User to be used when running p4 commands from console.          |
 | P4PASSWD                           | P@ssw0rd                               | `$P4USER`'s password.                                           |
+| P4CHARSET                          | `auto` if unicode is enabled.          | Charset the local client will to connect to p4d.                |
 | P4D\_USE\_UNICODE                  | false                                  | Set to `true` if server uses unicode mode.                      |
 | SWARM\_USER                        | p4admin                                | User to be used by Swarm to connect to p4d.                     |
 | SWARM\_PASSWD                      | P@ssw0rd                               | `$SWARM_USER`'s password.                                       |
