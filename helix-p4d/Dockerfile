@@ -42,7 +42,7 @@ COPY p4-protect           /p4-protect
 COPY p4-typemap           /p4-typemap
 COPY p4-users             /p4-users
 
-HEALTHCHECK --interval=5s --timeout=1s --start-period=15s \
+HEALTHCHECK --interval=1m --timeout=5s --start-period=30s \
     CMD p4 info
 
 ENTRYPOINT ["/docker-entrypoint.sh"]

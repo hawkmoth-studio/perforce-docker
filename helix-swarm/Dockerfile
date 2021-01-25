@@ -36,7 +36,7 @@ COPY etc /etc
 COPY docker-entrypoint.sh /
 COPY docker-startup.d/    /docker-startup.d/
 
-HEALTHCHECK --interval=5s --timeout=1s --start-period=15s \
+HEALTHCHECK --interval=1m --timeout=5s --start-period=30s \
     CMD supervisorctl status all
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
