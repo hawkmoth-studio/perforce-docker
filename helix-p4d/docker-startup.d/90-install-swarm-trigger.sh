@@ -67,6 +67,7 @@ if [[ ! -f "${SWARM_TRIGGER_SCRIPT_PATH}" ]]; then
     cp -f "${SWARM_TRIGGER_SCRIPT_SOURCE}" "${SWARM_TRIGGER_SCRIPT_PATH}"
     p4 add "${SWARM_TRIGGER_SCRIPT_PATH}" 1>/dev/null
 elif [[ "$(md5sum "${SWARM_TRIGGER_SCRIPT_PATH}" | awk '{ print $1 }')" != "$(md5sum "${SWARM_TRIGGER_SCRIPT_SOURCE}" | awk '{ print $1 }')" ]]; then
+    p4 unlock -f "${SWARM_TRIGGER_SCRIPT_PATH}" 1>/dev/null
     p4 edit "${SWARM_TRIGGER_SCRIPT_PATH}" 1>/dev/null
     cp -f "${SWARM_TRIGGER_SCRIPT_SOURCE}" "${SWARM_TRIGGER_SCRIPT_PATH}"
 fi
@@ -82,6 +83,7 @@ if [[ ! -f "${SWARM_TRIGGER_CONF_PATH}" ]]; then
     cp -f "${SWARM_TRIGGER_CONF_SOURCE}" "${SWARM_TRIGGER_CONF_PATH}"
     p4 add "${SWARM_TRIGGER_CONF_PATH}" 1>/dev/null
 elif [[ "$(md5sum "${SWARM_TRIGGER_CONF_PATH}" | awk '{ print $1 }')" != "$(md5sum "${SWARM_TRIGGER_CONF_SOURCE}" | awk '{ print $1 }')" ]]; then
+    p4 unlock -f "${SWARM_TRIGGER_CONF_PATH}" 1>/dev/null
     p4 edit "${SWARM_TRIGGER_CONF_PATH}" 1>/dev/null
     cp -f "${SWARM_TRIGGER_CONF_SOURCE}" "${SWARM_TRIGGER_CONF_PATH}"
 fi
