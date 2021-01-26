@@ -181,6 +181,7 @@ docker run -it --rm -e P4PORT=ssl:p4d:1666 -p 80:80 --name helix-swarm hawkmoths
 | P4PASSWD                           | P@ssw0rd                               | `$P4USER`'s password.                                           |
 | P4CHARSET                          | `auto` if unicode is enabled.          | Charset the local client will to connect to p4d.                |
 | P4D\_USE\_UNICODE                  | false                                  | Set to `true` if server uses unicode mode.                      |
+| SWARM\_INIT\_FORCE                 | false                                  | Set to `true` to skip checking supplied P4PORT and credentials. |
 | SWARM\_USER                        | p4admin                                | User to be used by Swarm to connect to p4d.                     |
 | SWARM\_PASSWD                      | P@ssw0rd                               | `$SWARM_USER`'s password.                                       |
 | SWARM\_USER\_CREATE                | false                                  | Set to `true` to create `$SWARM_USER` on the p4d server.        |

@@ -10,6 +10,9 @@ fi
 # run configure-swarm.sh
 CONFIGURE_SWARM_CMD=("/opt/perforce/swarm/sbin/configure-swarm.sh")
 CONFIGURE_SWARM_CMD+=("--non-interactive")
+if [[ "${SWARM_INIT_FORCE}" == "true" ]]; then
+    CONFIGURE_SWARM_CMD+=("--force")
+fi
 CONFIGURE_SWARM_CMD+=("--p4port" "${P4PORT}")
 CONFIGURE_SWARM_CMD+=("--swarm-user" "${SWARM_USER}")
 CONFIGURE_SWARM_CMD+=("--swarm-passwd" "${SWARM_PASSWD}")
