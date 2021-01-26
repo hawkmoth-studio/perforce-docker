@@ -25,6 +25,9 @@ fi
 
 # validate ssl configuration
 if [[ "${SWARM_SSL_ENABLE}" == "true" ]]; then
+    echo "WARNING! Running Swarm with HTTPS support enabled can lead to certain bugs."
+    echo "         Consider running behind a reverse proxy instead."
+
     if [[ -z "${SWARM_SSL_CERTIFICATE_FILE}" ]]; then
         SWARM_SSL_CERTIFICATE_FILE="/etc/ssl/certs/ssl-cert-snakeoil.pem"
         echo "WARNING! Using default certificate file: ${SWARM_SSL_CERTIFICATE_FILE}"

@@ -33,6 +33,7 @@ ENV P4PASSWD            P@ssw0rd
 
 
 COPY etc /etc
+COPY opt /opt
 COPY docker-entrypoint.sh /
 COPY docker-startup.d/    /docker-startup.d/
 

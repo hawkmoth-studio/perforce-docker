@@ -200,6 +200,10 @@ If not, Swarm is initialized using provided environment variables.
 After the container has been initialized, all modifications to the Swarm configuration should be done by editing the `config.php` (see [official documentation](https://www.perforce.com/manuals/swarm/Content/Swarm/admin.configuration.html)).
 
 ### TLS support
+ATTENTION: it is highly recommended running Swarm behind a reverse proxy (e.g. httpd or nginx).
+Running Swarm with TLS enabled can interfere with Swarm's P4 client and lead to certain bugs,
+such as [NetSslTransport::SslClientInit SSL_load_error_strings: error:0909006C:PEM routines:get_name:no start lin](https://github.com/hawkmoth-studio/perforce-docker/issues/25). 
+
 Set `SWARM_SSL_ENABLE` to `true` and provide correct certificate and key files to enable TLS support.
 TLS support can be enabled/disabled/updated through the environment variables at any time (container restart is required).
 
@@ -218,10 +222,12 @@ services:
     ports:
       - '1666:1666'
     environment:
-      P4USER: 'mysuperuser'
+      P4USER: 'p4admin'
       P4PASSWD: 'MySup3rPwd'
       P4D_SSL_CERTIFICATE_FILE: '/etc/letsencrypt/live/example.com/fullchain.pem'
       P4D_SSL_CERTIFICATE_KEY_FILE: '/etc/letsencrypt/live/example.com/privkey.pem'
+      SWARM_HOST: 'http://perforce.example.com'
+      SWARM_URL: 'https://perforce.example.com'
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
@@ -234,15 +240,12 @@ services:
       - '443:443'
     environment:
       P4PORT: 'ssl:p4d:1666'
-      P4USER: 'mysuperuser'
+      P4USER: 'p4admin'
       P4PASSWD: 'MySup3rPwd'
       SWARM_USER: 'swarm'
       SWARM_PASSWD: 'MySwa3mPwd'
       SWARM_USER_CREATE: 'true'
       SWARM_GROUP_CREATE: 'true'
-      SWARM_SSL_ENABLE: 'true'
-      SWARM_SSL_CERTIFICATE_FILE: '/etc/letsencrypt/live/example.com/fullchain.pem'
-      SWARM_SSL_CERTIFICATE_KEY_FILE: '/etc/letsencrypt/live/example.com/privkey.pem'
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /etc/timezone:/etc/timezone:ro
