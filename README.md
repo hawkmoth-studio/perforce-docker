@@ -34,7 +34,7 @@ docker run -v /srv/helix-p4d/data:/data -p 1666:1666 --name=helix-p4d hawkmothst
 | P4PASSWD                           | P@ssw0rd                               | Password of the admin user to be created.                       |
 | P4CHARSET                          | `auto` if unicode is enabled.          | Charset the local client will to perform administrative tasks.  |
 | P4D\_CASE\_SENSITIVE               | false                                  | Set to `true` to enable case-sensitive mode.                    |
-| P4D\_USE\_UNICODE                  | false                                  | Set to `true` to enable unicode mode.                           |
+| P4D\_USE\_UNICODE                  | true                                   | Set to `false` to disable unicode mode.                         |
 | P4D\_FILETYPE\_BYPASSLOCK          | 1                                      | Enable / disable bypasslock (needed by Swarm).                  |
 | P4D\_SECURITY                      | 2                                      | Server security level.                                          |
 | P4D\_LOAD\_TYPEMAPS                | false                                  | If true, loads typemap specifications on startup.               |
