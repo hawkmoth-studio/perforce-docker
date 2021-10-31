@@ -1,3 +1,7 @@
+ARG HELIX_P4D_VERSION=2021.1
+ARG HELIX_SWARM_VERSION=2021.2
+
+
 FROM ubuntu:20.04
 
 
@@ -14,12 +18,17 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 
+ARG HELIX_P4D_VERSION
+ENV HELIX_P4D_VERSION=${HELIX_P4D_VERSION}
+ARG HELIX_SWARM_VERSION
+ENV HELIX_SWARM_VERSION=${HELIX_SWARM_VERSION}
+
 RUN curl -s -L https://package.perforce.com/perforce.pubkey | apt-key add - \
  && apt-add-repository "deb http://package.perforce.com/apt/ubuntu $(lsb_release -sc) release" \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive \
     apt-get -y install \
-        helix-swarm \
+        helix-swarm="${HELIX_SWARM_VERSION}"-* \
         redis-server \
         supervisor \
  && rm -rf /var/lib/apt/lists/*
