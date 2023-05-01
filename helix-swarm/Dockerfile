@@ -23,8 +23,8 @@ ENV HELIX_P4D_VERSION=${HELIX_P4D_VERSION}
 ARG HELIX_SWARM_VERSION
 ENV HELIX_SWARM_VERSION=${HELIX_SWARM_VERSION}
 
-RUN curl -s -L https://package.perforce.com/perforce.pubkey | apt-key add - \
- && apt-add-repository "deb http://package.perforce.com/apt/ubuntu $(lsb_release -sc) release" \
+RUN curl -s -L https://package.perforce.com/perforce.pubkey | gpg --dearmor > /etc/apt/trusted.gpg.d/perforce.gpg \
+ && apt-add-repository -y "deb http://package.perforce.com/apt/ubuntu $(lsb_release -sc) release" \
  && apt-get update \
  && DEBIAN_FRONTEND=noninteractive \
     apt-get -y install \
