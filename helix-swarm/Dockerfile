@@ -2,7 +2,7 @@ ARG HELIX_P4D_VERSION=2023.2
 ARG HELIX_SWARM_VERSION=2023.4
 
 
-FROM ubuntu:20.04
+FROM ubuntu:22.04 AS helix-base
 
 
 RUN apt-get update \
@@ -25,7 +25,12 @@ ENV HELIX_SWARM_VERSION=${HELIX_SWARM_VERSION}
 
 RUN curl -s -L https://package.perforce.com/perforce.pubkey | gpg --dearmor > /etc/apt/trusted.gpg.d/perforce.gpg \
  && apt-add-repository -y "deb http://package.perforce.com/apt/ubuntu $(lsb_release -sc) release" \
- && apt-get update \
+ && rm -rf /var/lib/apt/lists/*
+
+
+FROM helix-base AS helix-swarm
+
+RUN apt-get update \
  && DEBIAN_FRONTEND=noninteractive \
     apt-get -y install \
         helix-swarm="${HELIX_SWARM_VERSION}"-* \
