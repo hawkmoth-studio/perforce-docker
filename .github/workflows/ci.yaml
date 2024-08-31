@@ -18,21 +18,11 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: hawkmothstudio/helix-p4d
-          tags: |
-            type=ref,event=branch
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
       - name: Set image tags for helix-swarm
         id: swarm_meta
         uses: docker/metadata-action@v5
         with:
           images: hawkmothstudio/helix-swarm
-          tags: |
-            type=ref,event=branch
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
