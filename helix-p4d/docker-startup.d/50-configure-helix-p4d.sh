@@ -7,11 +7,17 @@ if gosu perforce p4dctl list 2>/dev/null | grep -q "${P4NAME}"; then
     echo "Starting p4d server in local-only mode..."
 
     # p4d running with localhost-only binding is used in other scripts (e.g. to setup triggers)
-    gosu perforce p4dctl start "${P4NAME}" &>/dev/null
+    if ! { error=$(gosu perforce p4dctl start "${P4NAME}" 2>&1 >&3); } 3>&1; then
+        >&2 echo "${error}"
+        exit 1
+    fi
 
     # automatically trust self
     if [[ "${P4PORT}" == "ssl:"* ]]; then
-        p4 trust -y &>/dev/null
+        if ! { error=$(p4 trust -y 2>&1 >&3); } 3>&1; then
+            >&2 echo "${error}"
+            exit 1
+        fi
     fi
 
     # login to local server
@@ -41,12 +47,18 @@ if [[ "${P4D_USE_UNICODE}" == "true" ]]; then
     CONFIGURE_P4D_CMD+=("--unicode")
 fi
 # run configure script
-"${CONFIGURE_P4D_CMD[@]}" 1>/dev/null
+if ! { error=$("${CONFIGURE_P4D_CMD[@]}" 2>&1 >&3); } 3>&1; then
+    >&2 echo "${error}"
+    exit 1
+fi
 
 # delete default depot if loading depots from spec files
 if [[ "${P4D_LOAD_DEPOTS}" == "true" ]]; then
     echo "Deleting default depot..."
-    p4 depot -d "depot" 1>/dev/null
+    if ! { error=$(p4 depot -d "depot" 2>&1 >&3); } 3>&1; then
+        >&2 echo "${error}"
+        exit 1
+    fi
 fi
 
 # log to console
