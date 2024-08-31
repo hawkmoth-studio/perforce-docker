@@ -45,6 +45,7 @@ docker run -v /srv/helix-p4d/data:/data -p 1666:1666 --name=helix-p4d hawkmothst
 | P4D\_LOAD\_PROTECTIONS             | false                                  | If true, loads protection lists on startup.                     |
 | P4D\_SSL\_CERTIFICATE\_FILE        |                                        | If set, file is copied and used as a TLS certificate.           |
 | P4D\_SSL\_CERTIFICATE\_KEY\_FILE   |                                        | If set, file is copied and used as a TLS private key.           |
+| P4D\_DATABASE\_UPGRADE             | false                                  | Set to `true` to attempt database upgrade on start.             |
 | SWARM\_URL                         |                                        | If set, used to update P4.Swarm.URL property.                   |
 | INSTALL\_SWARM\_TRIGGER            | false                                  | Set to `true` to automatically install / update swarm triggers. |
 | SWARM\_TRIGGER\_HOST               | http://swarm                           | URL to be used by p4d to access Swarm.                          |
