@@ -39,11 +39,11 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 
-ENV PATH                /opt/perforce/bin:${PATH}
+ENV PATH=/opt/perforce/bin:${PATH}
 
-ENV P4PORT              ssl:p4d:1666
-ENV P4USER              p4admin
-ENV P4PASSWD            P@ssw0rd
+ENV P4PORT=ssl:p4d:1666
+ENV P4USER=p4admin
+ENV P4PASSWD=P@ssw0rd
 
 
 COPY etc /etc

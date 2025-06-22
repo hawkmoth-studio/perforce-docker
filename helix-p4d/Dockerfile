@@ -38,13 +38,13 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 
 
-ENV P4PORT                  ssl:1666
-ENV P4USER                  p4admin
-ENV P4PASSWD                P@ssw0rd
+ENV P4PORT=ssl:1666
+ENV P4USER=p4admin
+ENV P4PASSWD=P@ssw0rd
 
-ENV P4NAME                  master
-ENV P4ROOT                  /data/${P4NAME}/root
-ENV P4SSLDIR                ${P4ROOT}/ssl
+ENV P4NAME=master
+ENV P4ROOT=/data/${P4NAME}/root
+ENV P4SSLDIR=${P4ROOT}/ssl
 
 
 COPY docker-entrypoint.sh /
