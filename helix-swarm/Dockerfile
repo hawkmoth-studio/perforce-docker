@@ -55,4 +55,4 @@ HEALTHCHECK --interval=1m --timeout=5s --start-period=30s \
     CMD supervisorctl status all
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
-CMD /usr/bin/supervisord --configuration /etc/supervisor/supervisord.conf
+CMD ["/usr/bin/supervisord", "--configuration", "/etc/supervisor/supervisord.conf"]

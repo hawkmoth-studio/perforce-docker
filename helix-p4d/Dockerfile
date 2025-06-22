@@ -59,5 +59,7 @@ COPY p4-users             /p4-users
 HEALTHCHECK --interval=1m --timeout=5s --start-period=30s \
     CMD p4 info
 
+SHELL ["/bin/bash", "-c"]
 ENTRYPOINT ["/docker-entrypoint.sh"]
+# Using shell-form is required for ${P4PORT} to be correctly resolved (not working in JSON format).
 CMD gosu perforce p4d -p "${P4PORT}"
