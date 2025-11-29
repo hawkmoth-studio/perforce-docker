@@ -128,7 +128,7 @@ StreamDepth:    //depot/1
 Map:            depot/...
 ```
 
-#### Depots
+#### Load Protections
 If `P4D_LOAD_PROTECTIONS` is set to `true`, all `.txt`-files from `/p4-protect` (in alphabetic order)
 are merged together and loaded as protection specification when starting container.
 
