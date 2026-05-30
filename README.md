@@ -203,6 +203,12 @@ If not, Swarm is initialized using provided environment variables.
 
 After the container has been initialized, all modifications to the Swarm configuration should be done by editing the `config.php` (see [official documentation](https://www.perforce.com/manuals/swarm/Content/Swarm/admin.configuration.html)).
 
+#### Text editor
+`vim` is the default text editor in the container, but `nano` is also available and can be used by `p4` by modifying the `P4EDITOR` environment variable:
+```bash
+P4EDITOR=nano p4 typemap
+```
+
 ### TLS support
 ATTENTION: it is highly recommended running Swarm behind a reverse proxy (e.g. httpd or nginx).
 Running Swarm with TLS enabled can interfere with Swarm's P4 client and lead to certain bugs,
