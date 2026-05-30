@@ -14,6 +14,7 @@ RUN apt-get update \
         gosu \
         software-properties-common \
         vim-tiny \
+        nano \
  && update-alternatives --install /usr/bin/editor editor /usr/bin/vi 1000 \
  && rm -rf /var/lib/apt/lists/*
 
