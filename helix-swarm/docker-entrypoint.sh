@@ -40,6 +40,7 @@ fi
 
 # run all scripts from /docker-startup.d
 for f in /docker-startup.d/*.sh; do
+    echo "[INIT] Running "$(basename "${f}")"..."
     bash "${f}" || exit 1
 done
 
