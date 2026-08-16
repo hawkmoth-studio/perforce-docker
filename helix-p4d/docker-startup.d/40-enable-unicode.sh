@@ -6,6 +6,6 @@ set -e
 # make sure that p4d is switched to unicode mode
 if [[ "${P4D_USE_UNICODE}" == "true" ]]; then
     if gosu perforce p4dctl list 2>/dev/null | grep -q "${P4NAME}"; then
-        gosu perforce p4d -xi -r "${P4ROOT}"
+        gosu perforce p4d "${P4D_CASE_SENSITIVE_FLAG}" -xi -r "${P4ROOT}"
     fi
 fi
