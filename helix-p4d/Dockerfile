@@ -62,5 +62,5 @@ HEALTHCHECK --interval=1m --timeout=5s --start-period=30s \
 
 SHELL ["/bin/bash", "-c"]
 ENTRYPOINT ["/docker-entrypoint.sh"]
-# Using shell-form is required for ${P4PORT} to be correctly resolved (not working in JSON format).
-CMD gosu perforce p4d -p "${P4PORT}"
+# Using shell-form is required for ${P4PORT} and ${P4D_CASE_SENSITIVE_FLAG} to be resolved at runtime.
+CMD gosu perforce p4d "${P4D_CASE_SENSITIVE_FLAG}" -p "${P4PORT}"

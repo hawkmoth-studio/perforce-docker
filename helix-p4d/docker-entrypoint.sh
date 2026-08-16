@@ -30,6 +30,12 @@ if [[ "${P4D_USE_UNICODE}" == "true" ]]; then
     export P4CHARSET="${P4CHARSET:-auto}"
 fi
 
+if [[ "${P4D_CASE_SENSITIVE}" == "true" ]]; then
+    export P4D_CASE_SENSITIVE_FLAG=-C0
+else
+    export P4D_CASE_SENSITIVE_FLAG=-C1
+fi
+
 # validate swarm trigger parameters
 if [[ "${INSTALL_SWARM_TRIGGER}" == "true" ]]; then
     if [[ -z "${SWARM_TRIGGER_HOST}" ]]; then
